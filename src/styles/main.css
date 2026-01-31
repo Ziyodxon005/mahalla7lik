@@ -1,0 +1,323 @@
+:root {
+  --bg-color: #e0e5ec;
+  /* Slightly blueish-gray common in neumorphism, or #efefef from prev. Let's try #e0e5ec for that premium feel or stick to #efefef if screen suggests. Screenshot looks like #efefef. */
+  --bg-color: #efefef;
+  --text-main: #333333;
+  --text-secondary: #888888;
+  --primary: #2d85ff;
+  /* Vibrant Blue */
+  --primary-hover: #1a73e8;
+  --shadow-light: 6px 6px 16px #c5c5c5, -6px -6px 16px #ffffff;
+  --shadow-light-sm: 3px 3px 6px #c5c5c5, -3px -3px 6px #ffffff;
+  --shadow-inner: inset 4px 4px 8px #d1d9e6, inset -4px -4px 8px #ffffff;
+  --shadow-inner-sharp: inset 2px 2px 5px #c8c8c8, inset -2px -2px 5px #ffffff;
+
+  --radius-xl: 30px;
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* --- Components --- */
+
+/* Cards (Outward) */
+.neu-card {
+  background: var(--bg-color);
+  box-shadow: 9px 9px 16px rgb(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Inputs / Areas (Inward) */
+.neu-pressed {
+  background: var(--bg-color);
+  box-shadow: inset 6px 6px 12px #c5c5c5, inset -6px -6px 12px #ffffff;
+  border-radius: var(--radius-lg);
+  border: none;
+}
+
+.neu-input {
+  width: 100%;
+  padding: 16px 20px;
+  background: var(--bg-color);
+  box-shadow: var(--shadow-inner);
+  border-radius: 50px;
+  /* Pill shape for inputs */
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: var(--text-main);
+  box-sizing: border-box;
+}
+
+.neu-input:focus {
+  box-shadow: inset 8px 8px 12px #b8b8b8, inset -8px -8px 12px #ffffff;
+}
+
+.neu-textarea {
+  width: 100%;
+  padding: 20px;
+  background: var(--bg-color);
+  box-shadow: var(--shadow-inner);
+  border-radius: var(--radius-lg);
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+/* Buttons */
+.neu-btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 32px;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 6px 6px 10px rgba(45, 133, 255, 0.3), -6px -6px 10px rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.neu-btn-primary:active {
+  transform: scale(0.98);
+  box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.neu-btn-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--bg-color);
+  box-shadow: var(--shadow-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  transition: all 0.2s;
+}
+
+.neu-btn-icon:hover {
+  color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.neu-btn-icon.active {
+  color: var(--primary);
+  box-shadow: var(--shadow-inner);
+}
+
+/* Category Item Styling */
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.category-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--bg-color);
+  box-shadow: 8px 8px 16px #c5c5c5, -8px -8px 16px #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  transition: all 0.2s;
+  border: 3px solid transparent;
+}
+
+.category-item.selected .category-btn {
+  box-shadow: var(--shadow-inner);
+  color: var(--primary);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.category-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.category-item.selected .category-label {
+  color: var(--primary);
+}
+
+
+/* Layouts */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Status Badges */
+.badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge-pending {
+  background: #fff8e1;
+  color: #ffa000;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.badge-progress {
+  background: #e3f2fd;
+  color: #1e88e5;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.badge-done {
+  background: #e8f5e9;
+  color: #43a047;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Chat specific */
+.chat-bubble {
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  max-width: 80%;
+  position: relative;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.chat-bubble.me {
+  background: var(--bg-color);
+  /* White/Gray */
+  box-shadow: 5px 5px 10px #c5c5c5, -5px -5px 10px #ffffff;
+  border-top-right-radius: 4px;
+  margin-left: auto;
+}
+
+.chat-bubble.them {
+  background: var(--bg-color);
+  box-shadow: inset 2px 2px 5px #d1d9e6, inset -2px -2px 5px #ffffff;
+  /* Pressed in look for others? OR just plain white */
+  /* Let's make received messages look distinct. Maybe just white popping out. */
+  box-shadow: 5px 5px 10px #c5c5c5, -5px -5px 10px #ffffff;
+  border-top-left-radius: 4px;
+  margin-right: auto;
+}
+
+/* Replicating the screenshot: User's message might be standard, System is inset? */
+/* Actually screen 3 shows: Left (White bubble), Right (White bubble with checkmark). The input is the distinctive part. */
+
+/* Timeline styling for "My Activity" */
+.timeline {
+  position: relative;
+  padding-left: 20px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 0;
+  width: 2px;
+  background: #e0e0e0;
+  /* subtle line */
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.timeline-icon {
+  position: absolute;
+  left: -35px;
+  /* Adjust based on padding */
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 3px 3px 6px #c5c5c5;
+  z-index: 2;
+  font-size: 12px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Global Image Constraint */
+img {
+  object-fit: cover;
+}

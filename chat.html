@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Real-time Chat Module | Mahalla Digital</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b7cee",
+                        "background-light": "#E0E0E0",
+                        "background-dark": "#101822",
+                        "neo-base": "#E0E0E0",
+                        "neo-shadow-light": "#FFFFFF",
+                        "neo-shadow-dark": "#BEBEBE",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .neo-convex {
+            background: #E0E0E0;
+            box-shadow: 6px 6px 12px #bebebe, -6px -6px 12px #ffffff;
+        }
+
+        .neo-concave {
+            background: #E0E0E0;
+            box-shadow: inset 6px 6px 12px #bebebe, inset -6px -6px 12px #ffffff;
+        }
+
+        .neo-convex-blue {
+            background: #e6effd;
+            /* Very light primary tint */
+            box-shadow: 4px 4px 10px #bebebe, -4px -4px 10px #ffffff;
+        }
+
+        .neo-pressed-hover:active,
+        .neo-pressed-hover:hover {
+            box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+        }
+
+        .neo-thumb {
+            box-shadow: 4px 4px 8px #bebebe, -4px -4px 8px #ffffff;
+            border: 4px solid #E0E0E0;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #E0E0E0;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #BEBEBE;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 antialiased overflow-hidden">
+    <div class="flex h-screen w-full flex-col">
+        <!-- Top Navigation Bar -->
+        <header
+            class="flex items-center justify-between px-10 py-3 bg-neo-base border-b border-neo-shadow-dark/20 z-10">
+            <div class="flex items-center gap-8">
+                <div class="flex items-center gap-3">
+                    <div class="size-8 flex items-center justify-center neo-convex rounded-lg text-primary">
+                        <span class="material-symbols-outlined">communities</span>
+                    </div>
+                    <h2 class="text-xl font-bold tracking-tight">Mahalla Digital</h2>
+                </div>
+            </div>
+        </header>
+        <!-- Main Layout Split-view -->
+        <main class="flex flex-1 overflow-hidden p-6 gap-6">
+            <!-- Left Sidebar: Conversations -->
+            <div class="w-80 flex flex-col gap-6 h-full">
+                <!-- Message Filters -->
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <h1 class="text-lg font-bold">Messages</h1>
+                    </div>
+                </div>
+                <!-- Chat List -->
+                <div class="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-4 pr-2">
+                    <!-- Content would be dynamic -->
+                </div>
+            </div>
+            <!-- Right Main Chat View -->
+            <div class="flex-1 flex flex-col h-full rounded-3xl neo-convex overflow-hidden">
+                <!-- Chat Header -->
+                <div class="px-8 py-5 border-b border-neo-shadow-dark/10 flex items-center justify-between">
+                    <h3>Chat</h3>
+                </div>
+                <!-- Chat Stream -->
+                <div class="flex-1 overflow-y-auto p-8 flex flex-col gap-6 custom-scrollbar bg-neo-base">
+                    <p class="text-center text-slate-500">Select a conversation</p>
+                </div>
+                <!-- Bottom Input Area -->
+                <div class="p-6 border-t border-neo-shadow-dark/10 bg-neo-base">
+                    <div class="flex items-center gap-4">
+                        <input class="w-full neo-concave rounded-2xl px-6 py-3 border-none" placeholder="Message..."
+                            readonly>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

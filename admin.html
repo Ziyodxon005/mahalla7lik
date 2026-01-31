@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html class="light" lang="uz">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Mahalla Digital - Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b7cee",
+                        "neu-bg": "#e0e5ec",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #e0e5ec;
+        }
+
+        /* Neomorphism */
+        .neu-card {
+            background: #e0e5ec;
+            box-shadow: 6px 6px 12px #b8bec7, -6px -6px 12px #ffffff;
+        }
+
+        .neu-inset {
+            background: #e0e5ec;
+            box-shadow: inset 4px 4px 8px #b8bec7, inset -4px -4px 8px #ffffff;
+        }
+
+        .neu-btn {
+            background: #e0e5ec;
+            box-shadow: 4px 4px 8px #b8bec7, -4px -4px 8px #ffffff;
+            transition: all 0.15s;
+        }
+
+        .neu-btn:active,
+        .neu-active {
+            box-shadow: inset 3px 3px 6px #b8bec7, inset -3px -3px 6px #ffffff;
+        }
+
+        .glass-sidebar {
+            background: rgba(224, 229, 236, 0.6);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Particle/Alpha Animations */
+        @keyframes particleFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(15px);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.01) translateY(-3px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .animate-particle {
+            animation: particleFadeIn 0.4s ease-out forwards;
+        }
+
+        .modal-backdrop {
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .modal-content {
+            animation: particleFadeIn 0.35s ease-out;
+        }
+
+        /* Chat message animations */
+        .chat-msg {
+            animation: particleFadeIn 0.3s ease-out;
+        }
+
+        /* Request card animations */
+        .request-card {
+            animation: particleFadeIn 0.4s ease-out;
+            animation-fill-mode: both;
+        }
+    </style>
+</head>
+
+<body class="text-slate-800 min-h-screen">
+
+    <!-- Admin Auth -->
+    <div id="admin-auth" class="fixed inset-0 z-[100] flex items-center justify-center bg-neu-bg">
+        <div class="neu-card p-10 rounded-3xl w-full max-w-md animate-particle">
+            <h2 class="text-xl font-bold mb-6 text-slate-800 text-center">Admin Kirish</h2>
+            <form id="admin-login-form" class="flex flex-col gap-4">
+                <input type="tel" id="admin-phone" placeholder="Telefon raqam"
+                    class="w-full neu-inset p-4 rounded-xl border-none outline-none" required />
+                <input type="password" id="admin-password" placeholder="Parol"
+                    class="w-full neu-inset p-4 rounded-xl border-none outline-none" required />
+                <button type="submit"
+                    class="bg-primary text-white py-4 rounded-xl font-bold hover:brightness-110 transition shadow-lg">Kirish</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="admin-app" class="flex h-screen overflow-hidden hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 h-full glass-sidebar flex flex-col p-5 animate-particle">
+            <div class="flex items-center gap-3 mb-10">
+                <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg">
+                    <span class="material-symbols-outlined">dashboard</span>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900">Mahalla Digital</h1>
+                    <p class="text-xs text-slate-500" id="sidebar-role-label">Admin Panel</p>
+                </div>
+            </div>
+
+            <nav class="flex-1">
+                <a class="flex items-center gap-3 px-4 py-3 rounded-xl neu-active text-primary font-semibold" href="#">
+                    <span class="material-symbols-outlined">inbox</span>
+                    <span>Murojaatlar</span>
+                </a>
+            </nav>
+
+            <button id="admin-logout"
+                class="w-full py-3 rounded-xl neu-btn text-slate-600 font-bold flex items-center justify-center gap-2 hover:text-red-500 transition">
+                <span class="material-symbols-outlined text-sm">logout</span>
+                Chiqish
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="flex items-center justify-between px-6 py-5 animate-particle" style="animation-delay: 0.1s;">
+                <div class="flex items-center gap-4">
+                    <h2 class="text-xl font-bold text-slate-800">Murojaatlar</h2>
+                    <div class="relative w-80">
+                        <input id="search-input"
+                            class="w-full neu-inset rounded-xl px-5 py-3 border-none outline-none text-sm"
+                            placeholder="Qidirish..." type="text" />
+                        <span
+                            class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="text-right">
+                        <p class="text-sm font-bold text-slate-800" id="admin-role-display">Admin</p>
+                        <p class="text-[10px] text-green-500 font-medium">Faol</p>
+                    </div>
+                    <div
+                        class="w-10 h-10 rounded-full neu-card flex items-center justify-center text-primary font-bold">
+                        A</div>
+                </div>
+            </header>
+
+            <!-- Filters -->
+            <div class="px-6 pb-4 flex gap-3 animate-particle" id="filters-container" style="animation-delay: 0.15s;">
+                <button data-filter="all"
+                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-active text-primary">
+                    Barchasi
+                </button>
+                <button data-filter="pending"
+                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-slate-600">
+                    Kutilmoqda
+                </button>
+                <button data-filter="progress"
+                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-slate-600">
+                    Jarayonda
+                </button>
+                <button data-filter="done"
+                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-slate-600">
+                    Bajarildi
+                </button>
+                <button data-filter="rejected"
+                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-slate-600">
+                    Rad etildi
+                </button>
+            </div>
+
+            <!-- Feed -->
+            <div class="flex-1 overflow-y-auto px-6 py-4 space-y-5 no-scrollbar" id="admin-requests-list">
+                <div class="flex flex-col items-center justify-center h-full text-slate-400">
+                    <span class="material-symbols-outlined text-4xl mb-2">sync</span>
+                    <p>Yuklanmoqda...</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- SUPER ADMIN DASHBOARD (faqat super_admin uchun) -->
+        <div id="super-admin-dashboard" class="hidden flex-1 flex flex-col overflow-hidden">
+            <!-- Dashboard Header -->
+            <header class="flex items-center justify-between px-6 py-5 animate-particle">
+                <div class="flex items-center gap-4">
+                    <h2 class="text-xl font-bold text-slate-800">📊 Dashboard</h2>
+                    <span class="text-sm text-slate-500">Super Admin Panel</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button id="toggle-dashboard-btn" onclick="window.toggleDashboard()"
+                        class="neu-btn px-4 py-2 rounded-xl text-sm font-semibold text-primary flex items-center gap-2">
+                        <span class="material-symbols-outlined text-lg">inbox</span>
+                        Murojaatlar
+                    </button>
+                    <div class="text-right">
+                        <p class="text-sm font-bold text-slate-800">SUPER ADMIN</p>
+                        <p class="text-[10px] text-green-500 font-medium">Faol</p>
+                    </div>
+                    <div
+                        class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center text-white font-bold shadow-lg">
+                        S
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <div class="px-6 py-4 grid grid-cols-5 gap-4 animate-particle" style="animation-delay: 0.1s;">
+                <div class="neu-card rounded-2xl p-5 text-center">
+                    <span class="material-symbols-outlined text-3xl text-slate-400 mb-2">assignment</span>
+                    <p class="text-3xl font-bold text-slate-800" id="stat-total">0</p>
+                    <p class="text-xs text-slate-500 mt-1">Jami</p>
+                </div>
+                <div class="neu-card rounded-2xl p-5 text-center">
+                    <span class="material-symbols-outlined text-3xl text-amber-500 mb-2">schedule</span>
+                    <p class="text-3xl font-bold text-amber-600" id="stat-pending">0</p>
+                    <p class="text-xs text-slate-500 mt-1">Kutilmoqda</p>
+                </div>
+                <div class="neu-card rounded-2xl p-5 text-center">
+                    <span class="material-symbols-outlined text-3xl text-blue-500 mb-2">pending</span>
+                    <p class="text-3xl font-bold text-blue-600" id="stat-progress">0</p>
+                    <p class="text-xs text-slate-500 mt-1">Jarayonda</p>
+                </div>
+                <div class="neu-card rounded-2xl p-5 text-center">
+                    <span class="material-symbols-outlined text-3xl text-green-500 mb-2">check_circle</span>
+                    <p class="text-3xl font-bold text-green-600" id="stat-done">0</p>
+                    <p class="text-xs text-slate-500 mt-1">Bajarildi</p>
+                </div>
+                <div class="neu-card rounded-2xl p-5 text-center">
+                    <span class="material-symbols-outlined text-3xl text-red-500 mb-2">cancel</span>
+                    <p class="text-3xl font-bold text-red-600" id="stat-rejected">0</p>
+                    <p class="text-xs text-slate-500 mt-1">Rad etildi</p>
+                </div>
+            </div>
+
+            <!-- Staff Statistics -->
+            <div class="px-6 flex-1 overflow-y-auto no-scrollbar animate-particle" style="animation-delay: 0.15s;">
+                <div class="neu-card rounded-2xl p-6 mb-4">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">group</span>
+                        Xodimlar Statistikasi
+                    </h3>
+                    <div id="staff-stats-container" class="space-y-4">
+                        <!-- Staff stats will be rendered here -->
+                        <div class="text-center text-slate-400 py-4">
+                            <span class="material-symbols-outlined animate-spin">sync</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Requests Table -->
+                <div class="neu-card rounded-2xl p-6 mb-6">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">list_alt</span>
+                        So'nggi Murojaatlar
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="text-left text-slate-500 border-b border-slate-200">
+                                    <th class="pb-3 font-semibold">Murojaat</th>
+                                    <th class="pb-3 font-semibold">Fuqaro</th>
+                                    <th class="pb-3 font-semibold">Kimga</th>
+                                    <th class="pb-3 font-semibold">Status</th>
+                                    <th class="pb-3 font-semibold">Sana</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-requests-table">
+                                <tr>
+                                    <td colspan="5" class="text-center text-slate-400 py-4">Yuklanmoqda...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Panel -->
+        <aside
+            class="w-96 h-full bg-neu-bg border-l border-white/40 flex flex-col transition-transform transform translate-x-full md:translate-x-0 absolute md:relative right-0 z-10 animate-particle"
+            id="chat-panel" style="animation-delay: 0.2s;">
+            <div class="p-5 border-b border-white/40">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-bold text-slate-400 uppercase">Muloqot</span>
+                    <button onclick="closeChatPanel()" class="text-slate-400 hover:text-slate-600 md:hidden">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <div class="p-4 rounded-xl neu-inset" id="chat-header-info">
+                    <p class="text-sm text-slate-400 text-center">Murojaatni tanlang</p>
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-5 space-y-3 no-scrollbar" id="chat-messages"></div>
+
+            <div class="p-5 border-t border-white/40">
+                <form id="chat-form" class="flex items-center gap-3 opacity-50 pointer-events-none">
+                    <input id="chat-input"
+                        class="flex-1 neu-inset rounded-full px-5 py-3 border-none outline-none text-sm"
+                        placeholder="Xabar yozing..." type="text" autocomplete="off" />
+                    <button type="submit"
+                        class="w-11 h-11 rounded-full bg-primary text-white flex items-center justify-center hover:brightness-110 transition shadow-lg">
+                        <span class="material-symbols-outlined text-lg">send</span>
+                    </button>
+                </form>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Status Modal - High z-index -->
+    <div id="status-modal"
+        class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-sm hidden modal-backdrop">
+        <div class="neu-card p-8 rounded-3xl w-full max-w-sm mx-4 modal-content">
+            <h3 class="text-lg font-bold text-slate-800 mb-5 text-center">Status O'zgartirish</h3>
+
+            <div class="flex flex-col gap-3 mb-5">
+                <button onclick="window.confirmStatusUpdate('progress')"
+                    class="w-full py-4 rounded-xl neu-btn text-blue-600 font-bold hover:text-blue-700 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">pending</span>
+                    Jarayonda
+                </button>
+                <button onclick="window.confirmStatusUpdate('done')"
+                    class="w-full py-4 rounded-xl neu-btn text-green-600 font-bold hover:text-green-700 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">check_circle</span>
+                    Bajarildi
+                </button>
+                <button onclick="window.showRejectReason()"
+                    class="w-full py-4 rounded-xl neu-btn text-red-600 font-bold hover:text-red-700 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">cancel</span>
+                    Rad Etish
+                </button>
+            </div>
+
+            <div id="reject-input-area" class="hidden mb-5">
+                <label class="text-xs font-bold text-slate-500 mb-2 block">Sabab:</label>
+                <textarea id="reject-reason-text"
+                    class="w-full neu-inset rounded-xl p-4 border-none outline-none text-sm" rows="3"
+                    placeholder="Rad etish sababini yozing..."></textarea>
+                <button onclick="window.confirmStatusUpdate('rejected')"
+                    class="w-full py-3 mt-3 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition shadow-lg">Tasdiqlash</button>
+            </div>
+
+            <button onclick="window.closeStatusModal()"
+                class="w-full py-2 text-slate-400 font-bold text-sm hover:text-slate-600">Bekor qilish</button>
+        </div>
+    </div>
+
+    <!-- Staff Detail Modal -->
+    <div id="staff-detail-modal"
+        class="fixed inset-0 z-[9998] flex items-center justify-center bg-black/40 backdrop-blur-sm hidden modal-backdrop">
+        <div
+            class="neu-card p-0 rounded-3xl w-full max-w-2xl mx-4 modal-content overflow-hidden max-h-[90vh] flex flex-col">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-primary to-blue-600 p-6 text-white">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center text-3xl font-bold backdrop-blur-sm">
+                            <span id="staff-modal-avatar">R</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold" id="staff-modal-title">Mahalla Raisi</h3>
+                            <p class="text-white/70 text-sm" id="staff-modal-subtitle">7-lik a'zosi</p>
+                        </div>
+                    </div>
+                    <button onclick="window.closeStaffModal()"
+                        class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="grid grid-cols-4 gap-3 p-4 bg-slate-50">
+                <div class="text-center p-3 rounded-xl neu-card">
+                    <p class="text-2xl font-bold text-slate-800" id="staff-stat-total">0</p>
+                    <p class="text-xs text-slate-500">Jami</p>
+                </div>
+                <div class="text-center p-3 rounded-xl neu-card">
+                    <p class="text-2xl font-bold text-amber-600" id="staff-stat-pending">0</p>
+                    <p class="text-xs text-slate-500">Kutilmoqda</p>
+                </div>
+                <div class="text-center p-3 rounded-xl neu-card">
+                    <p class="text-2xl font-bold text-green-600" id="staff-stat-done">0</p>
+                    <p class="text-xs text-slate-500">Bajarildi</p>
+                </div>
+                <div class="text-center p-3 rounded-xl neu-card">
+                    <p class="text-2xl font-bold text-red-600" id="staff-stat-rejected">0</p>
+                    <p class="text-xs text-slate-500">Rad etildi</p>
+                </div>
+            </div>
+
+            <!-- Progress Ring -->
+            <div class="flex items-center justify-center gap-6 p-4 border-b border-slate-200">
+                <div class="relative w-24 h-24">
+                    <svg class="w-24 h-24 transform -rotate-90">
+                        <circle cx="48" cy="48" r="40" stroke="#e2e8f0" stroke-width="8" fill="none" />
+                        <circle id="staff-progress-ring" cx="48" cy="48" r="40" stroke="url(#gradient)" stroke-width="8"
+                            fill="none" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" />
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#2b7cee" />
+                                <stop offset="100%" style="stop-color:#22c55e" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-xl font-bold text-slate-800" id="staff-percent">0%</span>
+                    </div>
+                </div>
+                <div class="text-sm text-slate-600">
+                    <p class="font-semibold text-slate-800 text-lg" id="staff-efficiency-label">Samaradorlik</p>
+                    <p class="text-slate-500">Hal qilingan murojaatlar foizi</p>
+                </div>
+            </div>
+
+            <!-- Requests List -->
+            <div class="flex-1 overflow-y-auto p-4 no-scrollbar">
+                <h4 class="text-sm font-bold text-slate-500 uppercase mb-3">Murojaatlar Ro'yxati</h4>
+                <div id="staff-requests-list" class="space-y-2">
+                    <!-- Requests will be rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Detail Modal (Super Admin - Read Only) -->
+    <div id="request-detail-modal"
+        class="fixed inset-0 z-[9997] flex items-center justify-center bg-black/50 backdrop-blur-sm hidden modal-backdrop">
+        <div
+            class="neu-card p-0 rounded-3xl w-full max-w-3xl mx-4 modal-content overflow-hidden max-h-[90vh] flex flex-col">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-slate-700 to-slate-900 p-5 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-white/60 uppercase">Murojaat</p>
+                        <h3 class="text-lg font-bold" id="detail-modal-title">Murojaat sarlavhasi</h3>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span id="detail-modal-status"
+                            class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500">Kutilmoqda</span>
+                        <button onclick="window.closeRequestDetailModal()"
+                            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 overflow-y-auto no-scrollbar">
+                <!-- Image -->
+                <div id="detail-image-container" class="hidden">
+                    <img id="detail-modal-image" src="" alt="Murojaat rasmi" class="w-full h-48 object-cover">
+                </div>
+
+                <!-- Info Grid -->
+                <div class="p-5 grid grid-cols-2 gap-4 border-b border-slate-200">
+                    <div>
+                        <p class="text-xs text-slate-500 mb-1">Kimdan</p>
+                        <p class="font-semibold text-slate-800" id="detail-modal-sender">Noma'lum</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 mb-1">Kimga</p>
+                        <p class="font-semibold text-slate-800" id="detail-modal-target">Noma'lum</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 mb-1">Sana</p>
+                        <p class="font-semibold text-slate-800" id="detail-modal-date">-</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 mb-1">Joylashuv</p>
+                        <p class="font-semibold text-slate-800" id="detail-modal-location">-</p>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="p-5 border-b border-slate-200">
+                    <p class="text-xs text-slate-500 mb-2 uppercase">Tavsif</p>
+                    <p class="text-slate-700 whitespace-pre-wrap" id="detail-modal-desc">-</p>
+                </div>
+
+                <!-- Chat History (Read Only) -->
+                <div class="p-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <p class="text-xs text-slate-500 uppercase">Chat Tarixi</p>
+                        <span class="text-xs text-slate-400 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">visibility</span>
+                            Faqat ko'rish
+                        </span>
+                    </div>
+                    <div id="detail-chat-history" class="space-y-2 max-h-60 overflow-y-auto neu-inset rounded-xl p-3">
+                        <p class="text-center text-slate-400 text-sm py-4">Xabarlar yo'q</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/js/admin.js"></script>
+    <script>
+        window.closeChatPanel = () => document.getElementById('chat-panel').classList.add('translate-x-full');
+        window.openChatPanelMobile = () => document.getElementById('chat-panel').classList.remove('translate-x-full');
+    </script>
+</body>
+
+</html>
