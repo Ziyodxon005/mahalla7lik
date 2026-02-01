@@ -28,7 +28,7 @@ function createLoadingOverlay(container) {
     overlay.id = 'map-loading-overlay';
     overlay.innerHTML = `
         <div class="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin mb-2"></div>
-        <p class="text-xs text-slate-600 font-bold">Joylashuv aniqlanmoqda...</p>
+        <p class="text-xs text-black font-bold">Joylashuv aniqlanmoqda...</p>
     `;
     container.style.position = 'relative';
     container.appendChild(overlay);
@@ -170,23 +170,23 @@ function showLocationPermissionDialog(callback, container) {
                 <span class="material-symbols-outlined text-amber-500 text-3xl">location_off</span>
             </div>
             <h3 class="text-lg font-bold text-slate-800 mb-2">Joylashuv ruxsati kerak</h3>
-            <p class="text-slate-500 text-sm mb-4">Brauzeringizda joylashuv ruxsatini yoqing:</p>
+            <p class="text-black text-sm mb-4">Brauzeringizda joylashuv ruxsatini yoqing:</p>
             
-            <div class="text-left bg-white/50 rounded-xl p-4 mb-4 text-xs text-slate-600 space-y-2">
-                <p class="font-bold text-slate-700">📱 Telefondan:</p>
+            <div class="text-left bg-white/50 rounded-xl p-4 mb-4 text-xs text-black space-y-2">
+                <p class="font-bold text-black">📱 Telefondan:</p>
                 <p>1. Brauzer manzil qatorida 🔒 belgisini bosing</p>
                 <p>2. "Joylashuv" yoki "Location" ni tanlang</p>
                 <p>3. "Ruxsat berish" ni bosing</p>
                 
-                <p class="font-bold text-slate-700 pt-2">💻 Kompyuterdan:</p>
+                <p class="font-bold text-black pt-2">💻 Kompyuterdan:</p>
                 <p>1. Manzil qatori chap tomonidagi 🔒 belgisini bosing</p>
                 <p>2. "Sayt sozlamalari" → "Joylashuv" → "Ruxsat berish"</p>
             </div>
             
-            <p class="text-[10px] text-slate-400 mb-4">Yoki xaritadan joylashuvni qo'lda belgilashingiz mumkin</p>
+            <p class="text-[10px] text-black mb-4">Yoki xaritadan joylashuvni qo'lda belgilashingiz mumkin</p>
             
             <div class="flex gap-3">
-                <button onclick="this.closest('#location-permission-dialog').remove()" class="flex-1 py-3 bg-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-300 transition text-sm">Bekor</button>
+                <button onclick="this.closest('#location-permission-dialog').remove()" class="flex-1 py-3 bg-slate-200 text-black font-bold rounded-xl hover:bg-slate-300 transition text-sm">Bekor</button>
                 <button id="retry-location-btn" class="flex-1 py-3 bg-primary text-white font-bold rounded-xl hover:brightness-110 transition shadow-lg text-sm">Qayta urinish</button>
             </div>
         </div>

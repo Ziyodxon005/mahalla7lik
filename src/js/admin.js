@@ -104,8 +104,8 @@ window.openEmbeddedChat = async (id, title, status, requesterName) => {
 
         chatHeaderInfo.innerHTML = `
             <p class="text-[10px] text-primary font-bold uppercase mb-1">#${id.slice(0, 6)} • ${statusText}</p>
-            <h4 class="font-bold text-slate-800 text-sm">${requesterName || 'Foydalanuvchi'}</h4>
-            <p class="text-xs text-slate-500 truncate">${title}</p>
+            <h4 class="font-bold text-black text-sm">${requesterName || 'Foydalanuvchi'}</h4>
+            <p class="text-xs text-black truncate">${title}</p>
         `;
     }
 
@@ -156,11 +156,14 @@ function showDashboard() {
             superAdminDashboard?.classList.remove('hidden');
             // Chat panelni yashirish (super admin faqat kuzatadi)
             document.getElementById('chat-panel')?.classList.add('hidden');
+            // Sidebar navigatsiyani yashirish
+            document.getElementById('sidebar-murojaatlar-btn')?.classList.add('hidden');
             loadSuperAdminStats();
         } else {
             mainContent?.classList.remove('hidden');
             superAdminDashboard?.classList.add('hidden');
             document.getElementById('chat-panel')?.classList.remove('hidden');
+            document.getElementById('sidebar-murojaatlar-btn')?.classList.remove('hidden');
             loadRequests();
         }
     } else {
@@ -209,11 +212,11 @@ if (filtersContainer) {
 
         document.querySelectorAll('.filter-btn').forEach(b => {
             b.classList.remove('neu-active', 'text-primary');
-            b.classList.add('text-slate-600');
+            b.classList.add('text-black');
         });
 
         btn.classList.add('neu-active', 'text-primary');
-        btn.classList.remove('text-slate-600');
+        btn.classList.remove('text-black');
 
         currentFilter = btn.dataset.filter;
         loadRequests();
@@ -272,7 +275,7 @@ function renderRequests(data) {
 
     if (!data || data.length === 0) {
         adminRequestsList.innerHTML = `
-            <div class="flex flex-col items-center justify-center h-full text-slate-400">
+            <div class="flex flex-col items-center justify-center h-full text-black">
                 <span class="material-symbols-outlined text-4xl mb-2">inbox</span>
                 <p>Murojaatlar topilmadi</p>
             </div>
@@ -305,7 +308,7 @@ function renderRequests(data) {
 
         const imgHtml = req.image_url
             ? `<a href="${req.image_url}" target="_blank" class="block w-full md:w-48 h-32 rounded-xl bg-cover bg-center neu-inset flex-shrink-0" style="background-image: url('${req.image_url}')"></a>`
-            : `<div class="w-full md:w-48 h-32 rounded-xl neu-inset flex items-center justify-center text-slate-300 flex-shrink-0"><span class="material-symbols-outlined text-4xl">image</span></div>`;
+            : `<div class="w-full md:w-48 h-32 rounded-xl neu-inset flex items-center justify-center text-black flex-shrink-0"><span class="material-symbols-outlined text-4xl">image</span></div>`;
 
         div.innerHTML = `
             ${imgHtml}
@@ -313,13 +316,13 @@ function renderRequests(data) {
                 <div>
                     <div class="flex items-center gap-2 mb-2">
                         <span class="px-2 py-0.5 rounded-full ${statusColors} text-[10px] font-bold uppercase">${statusText}</span>
-                        <span class="text-slate-400 text-xs">#${req.id.slice(0, 6)}</span>
+                        <span class="text-black text-xs">#${req.id.slice(0, 6)}</span>
                     </div>
-                    <h3 class="text-lg font-bold text-slate-800 truncate">${req.title}</h3>
-                    <p class="text-slate-500 text-sm mt-1 line-clamp-2">${req.description}</p>
+                    <h3 class="text-lg font-bold text-black truncate">${req.title}</h3>
+                    <p class="text-black text-sm mt-1 line-clamp-2">${req.description}</p>
                 </div>
                 <div class="flex items-center justify-between mt-4 flex-wrap gap-2">
-                    <div class="flex items-center gap-3 text-xs text-slate-400">
+                    <div class="flex items-center gap-3 text-xs text-black">
                         <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> ${new Date(req.created_at).toLocaleDateString()}</span>
                         <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">person</span> ${requesterName}</span>
                         <a href="https://maps.google.com/?q=${req.lat},${req.lng}" target="_blank" class="flex items-center gap-1 text-blue-500 hover:underline">
@@ -328,7 +331,7 @@ function renderRequests(data) {
                     </div>
                     
                     <div class="flex gap-2">
-                        <button onclick="window.openStatusModal('${req.id}')" class="px-4 py-2 rounded-xl neu-btn text-slate-600 text-xs font-bold flex items-center gap-1">
+                        <button onclick="window.openStatusModal('${req.id}')" class="px-4 py-2 rounded-xl neu-btn text-black text-xs font-bold flex items-center gap-1">
                             <span class="material-symbols-outlined text-sm">edit</span> Status
                         </button>
                         
@@ -348,7 +351,7 @@ function renderRequests(data) {
 
 async function loadMessagesForPanel(id) {
     if (!chatMessages) return;
-    chatMessages.innerHTML = '<p class="text-center text-slate-400 text-sm py-4">Yuklanmoqda...</p>';
+    chatMessages.innerHTML = '<p class="text-center text-black text-sm py-4">Yuklanmoqda...</p>';
 
     // Unsubscribe from previous channel
     if (chatChannel) {
@@ -374,7 +377,7 @@ async function loadMessagesForPanel(id) {
         if (messages && messages.length > 0) {
             messages.forEach(msg => appendMessageToPanel(msg));
         } else {
-            chatMessages.innerHTML = '<p class="text-center text-slate-400 text-sm py-4">Hali xabar yo\'q</p>';
+            chatMessages.innerHTML = '<p class="text-center text-black text-sm py-4">Hali xabar yo\'q</p>';
         }
 
         // Subscribe realtime
@@ -419,23 +422,23 @@ function appendMessageToPanel(msg, isOptimistic = false) {
     if (isMe) {
         div.className = 'flex flex-col items-end gap-1 max-w-[85%] ml-auto chat-msg';
         const checkIcon = isOptimistic ? 'done' : 'done_all';
-        const checkColor = isOptimistic ? 'text-slate-400' : 'text-primary';
+        const checkColor = isOptimistic ? 'text-black' : 'text-primary';
         div.innerHTML = `
             <div class="bg-primary text-white rounded-2xl rounded-tr-sm px-4 py-2 text-sm shadow-md">
                 ${msg.text}
             </div>
             <div class="flex items-center gap-1 mr-1">
-                <span class="text-[10px] text-slate-400">${time}</span>
+                <span class="text-[10px] text-black">${time}</span>
                 <span class="material-symbols-outlined text-xs ${checkColor}" id="check-${msg.id || 'temp'}">${checkIcon}</span>
             </div>
         `;
     } else {
         div.className = 'flex flex-col items-start gap-1 max-w-[85%] chat-msg';
         div.innerHTML = `
-            <div class="neu-inset rounded-2xl rounded-tl-sm px-4 py-2 text-sm text-slate-700">
+            <div class="neu-inset rounded-2xl rounded-tl-sm px-4 py-2 text-sm text-black">
                 ${msg.text}
             </div>
-            <span class="text-[10px] text-slate-400 ml-1">${time}</span>
+            <span class="text-[10px] text-black ml-1">${time}</span>
         `;
     }
     chatMessages.appendChild(div);
@@ -485,7 +488,7 @@ if (chatForm) {
                 const tempCheck = document.getElementById('check-temp');
                 if (tempCheck) {
                     tempCheck.textContent = 'done_all';
-                    tempCheck.classList.remove('text-slate-400');
+                    tempCheck.classList.remove('text-black');
                     tempCheck.classList.add('text-primary');
                 }
             }
@@ -694,7 +697,7 @@ window.openStaffModal = async (role) => {
                 const statusColors = {
                     'pending': 'text-amber-500',
                     'progress': 'text-blue-500',
-                    'done': 'text-green-500',
+                    'done': 'text-black',
                     'rejected': 'text-red-500'
                 };
                 return `
@@ -706,7 +709,7 @@ window.openStaffModal = async (role) => {
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-sm font-medium text-slate-700 truncate group-hover:text-primary transition-colors">${req.title || 'Nomsiz'}</p>
-                            <p class="text-[11px] text-slate-400">${req.profiles?.full_name || 'Noma\'lum'} • ${new Date(req.created_at).toLocaleDateString('uz-UZ')}</p>
+                            <p class="text-[11px] text-slate-500">${req.profiles?.full_name || 'Noma\'lum'} • ${new Date(req.created_at).toLocaleDateString('uz-UZ')}</p>
                         </div>
                         <span class="material-symbols-outlined text-slate-300 text-base group-hover:text-primary transition-colors">chevron_right</span>
                     </div>
@@ -828,7 +831,7 @@ async function loadChatHistoryReadOnly(requestId) {
             const isOfficial = msg.profiles?.role !== 'user';
             return `
                 <div class="flex ${isOfficial ? 'justify-end' : 'justify-start'}">
-                    <div class="${isOfficial ? 'bg-primary/10 text-primary' : 'bg-slate-100 text-slate-700'} px-3 py-2 rounded-xl max-w-[80%]">
+                    <div class="${isOfficial ? 'bg-primary/10 text-primary' : 'bg-slate-100 text-black'} px-3 py-2 rounded-xl max-w-[80%]">
                         <p class="text-xs font-semibold mb-1">${msg.profiles?.full_name || 'Noma\'lum'}</p>
                         <p class="text-sm">${msg.text}</p>
                         <p class="text-[10px] text-slate-400 mt-1">${new Date(msg.created_at).toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit' })}</p>

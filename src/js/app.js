@@ -95,6 +95,10 @@ async function checkUser() {
 function showAuth() {
     authContainer.classList.remove('hidden');
     mainInterface.classList.add('hidden');
+    // Start audio and visualization when auth screen is shown
+    if (typeof window.initAudioVisualization === 'function') {
+        window.initAudioVisualization();
+    }
 }
 
 function showMainInterface() {
@@ -166,7 +170,7 @@ function handleAuthError(errorCode) {
             showAuthDialog({
                 icon: 'person',
                 iconBg: 'bg-blue-100',
-                iconColor: 'text-blue-500',
+                iconColor: 'text-black',
                 title: "Siz avval ro'yxatdan o'tgansiz!",
                 message: "Bu telefon raqam allaqachon tizimda mavjud. Iltimos, parolingiz bilan kiring.",
                 buttonText: "Kirish sahifasiga o'tish",
@@ -217,7 +221,7 @@ function showAuthDialog({ icon, iconBg, iconColor, title, message, buttonText, a
 
     if (showRegisterBtn) {
         buttonsHtml = `
-            <button id="auth-dialog-close-btn" class="flex-1 py-3 bg-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-300 transition">Yopish</button>
+            <button id="auth-dialog-close-btn" class="flex-1 py-3 bg-slate-200 text-black font-bold rounded-xl hover:bg-slate-300 transition">Yopish</button>
             <button id="auth-dialog-register-btn" class="flex-1 py-3 bg-primary text-white font-bold rounded-xl hover:brightness-110 transition shadow-lg">Ro'yxatdan o'tish</button>
         `;
     }
@@ -227,8 +231,8 @@ function showAuthDialog({ icon, iconBg, iconColor, title, message, buttonText, a
             <div class="w-14 h-14 ${iconBg} rounded-full flex items-center justify-center mx-auto mb-4">
                 <span class="material-symbols-outlined ${iconColor} text-3xl">${icon}</span>
             </div>
-            <h3 class="text-lg font-bold text-slate-800 mb-2">${title}</h3>
-            <p class="text-slate-500 text-sm mb-6">${message}</p>
+            <h3 class="text-lg font-bold text-black mb-2">${title}</h3>
+            <p class="text-black text-sm mb-6">${message}</p>
             <div class="flex gap-3">
                 ${buttonsHtml}
             </div>
@@ -381,8 +385,8 @@ function showSuccessDialog() {
             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span class="material-symbols-outlined text-green-500 text-4xl">check_circle</span>
             </div>
-            <h3 class="text-xl font-bold text-slate-800 mb-2">Murojaat Yuborildi!</h3>
-            <p class="text-slate-500 text-sm mb-6">Sizning murojaatingiz muvaffaqiyatli qabul qilindi.</p>
+            <h3 class="text-xl font-bold text-black mb-2">Murojaat Yuborildi!</h3>
+            <p class="text-black text-sm mb-6">Sizning murojaatingiz muvaffaqiyatli qabul qilindi.</p>
             <button onclick="window.location.reload()" class="w-full py-3 bg-primary text-white font-bold rounded-xl hover:brightness-110 shadow-lg">Davom etish</button>
         </div>
     `;
@@ -401,7 +405,7 @@ async function loadMyRequests() {
         .limit(5);
 
     if (error || !data) {
-        requestsList.innerHTML = '<p class="text-sm text-slate-400 text-center">Murojaatlar topilmadi</p>';
+        requestsList.innerHTML = '<p class="text-sm text-black text-center">Murojaatlar topilmadi</p>';
         return;
     }
 
@@ -428,7 +432,7 @@ function renderRequestsList(data, container) {
     container.innerHTML = '';
 
     if (data.length === 0) {
-        container.innerHTML = '<p class="text-sm text-slate-400 text-center py-10">Hali murojaat yo\'q</p>';
+        container.innerHTML = '<p class="text-sm text-black text-center py-10">Hali murojaat yo\'q</p>';
         return;
     }
 
@@ -456,13 +460,13 @@ function renderRequestsList(data, container) {
         div.innerHTML = `
             ${hasUnread ? '<div class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>' : ''}
             <div class="flex justify-between items-start mb-2">
-                <span class="text-[10px] font-bold text-slate-400">#${req.id.slice(0, 6)}</span>
+                <span class="text-[10px] font-bold text-black">#${req.id.slice(0, 6)}</span>
                 <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${statusBadge}">${statusText}</span>
             </div>
-            <h4 class="font-bold text-slate-800 text-sm mb-1 truncate">${req.title}</h4>
-            <p class="text-xs text-slate-500 line-clamp-1">${req.description}</p>
+            <h4 class="font-bold text-black text-sm mb-1 truncate">${req.title}</h4>
+            <p class="text-xs text-black line-clamp-1">${req.description}</p>
             <div class="flex justify-between items-center mt-2 pt-2 border-t border-white/30">
-                <span class="text-[10px] text-slate-400">${new Date(req.created_at).toLocaleDateString()}</span>
+                <span class="text-[10px] text-black">${new Date(req.created_at).toLocaleDateString()}</span>
                 <span class="text-xs text-primary font-bold flex items-center gap-1">
                     Chat <span class="material-symbols-outlined text-sm">arrow_forward</span>
                 </span>
@@ -523,8 +527,8 @@ async function showRejectionReason(requestId, title, targetRole) {
             <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span class="material-symbols-outlined text-red-500 text-3xl">cancel</span>
             </div>
-            <h3 class="text-lg font-bold text-slate-800 mb-1 text-center">Murojaat Rad Etildi</h3>
-            <p class="text-xs text-slate-400 text-center mb-4">${title}</p>
+            <h3 class="text-lg font-bold text-black mb-1 text-center">Murojaat Rad Etildi</h3>
+            <p class="text-xs text-black text-center mb-4">${title}</p>
             
             <div class="bg-red-50 rounded-xl p-4 mb-4">
                 <p class="text-xs text-red-400 font-bold mb-1">${roleName} tomonidan rad etildi:</p>
@@ -532,7 +536,7 @@ async function showRejectionReason(requestId, title, targetRole) {
             </div>
             
             <div class="flex gap-3">
-                <button onclick="document.getElementById('rejection-reason-modal').remove()" class="flex-1 py-3 bg-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-300 transition text-sm">Yopish</button>
+                <button onclick="document.getElementById('rejection-reason-modal').remove()" class="flex-1 py-3 bg-slate-200 text-black font-bold rounded-xl hover:bg-slate-300 transition text-sm">Yopish</button>
                 <button onclick="document.getElementById('rejection-reason-modal').remove(); openChatAfterRejection('${requestId}', '${targetRole}', '${title.replace(/'/g, "\\'")}')" class="flex-1 py-3 bg-primary text-white font-bold rounded-xl hover:brightness-110 transition shadow-lg text-sm">Yozish</button>
             </div>
         </div>
@@ -546,7 +550,7 @@ window.openChatAfterRejection = async (requestId, targetRole, title) => {
     activeChatTargetRole = targetRole;
 
     chatModal?.classList.remove('hidden');
-    userChatMessages.innerHTML = '<p class="text-center text-slate-400 text-sm py-4">Yuklanmoqda...</p>';
+    userChatMessages.innerHTML = '<p class="text-center text-black text-sm py-4">Yuklanmoqda...</p>';
 
     const roleName = {
         'rais': 'Mahalla Raisi',
@@ -558,7 +562,7 @@ window.openChatAfterRejection = async (requestId, targetRole, title) => {
     }[targetRole] || 'Admin';
 
     if (chatWithName) {
-        chatWithName.innerHTML = `${roleName} <span class="text-slate-400 font-normal">• ${title}</span>`;
+        chatWithName.innerHTML = `${roleName} <span class="text-black font-normal">• ${title}</span>`;
     }
 
     // Load messages
@@ -579,7 +583,7 @@ window.openChatAfterRejection = async (requestId, targetRole, title) => {
         if (messages && messages.length > 0) {
             messages.forEach(msg => appendUserMessage(msg));
         } else {
-            userChatMessages.innerHTML = '<p class="text-center text-slate-400 text-sm py-4">Hali xabar yo\'q</p>';
+            userChatMessages.innerHTML = '<p class="text-center text-black text-sm py-4">Hali xabar yo\'q</p>';
         }
 
         chatChannel = supabase.channel(`user-chat-realtime-${requestId}`)
@@ -616,7 +620,7 @@ async function openUserChat(requestId, targetRole, title, status) {
     }
 
     chatModal?.classList.remove('hidden');
-    userChatMessages.innerHTML = '<p class="text-center text-slate-400 text-sm py-4">Yuklanmoqda...</p>';
+    userChatMessages.innerHTML = '<p class="text-center text-black text-sm py-4">Yuklanmoqda...</p>';
 
     const roleName = {
         'rais': 'Mahalla Raisi',
@@ -628,7 +632,7 @@ async function openUserChat(requestId, targetRole, title, status) {
     }[targetRole] || 'Admin';
 
     if (chatWithName) {
-        chatWithName.innerHTML = `${roleName} <span class="text-slate-400 font-normal">• ${title}</span>`;
+        chatWithName.innerHTML = `${roleName} <span class="text-black font-normal">• ${title}</span>`;
     }
 
     // Unsubscribe from previous
@@ -651,7 +655,7 @@ async function openUserChat(requestId, targetRole, title, status) {
         if (messages && messages.length > 0) {
             messages.forEach(msg => appendUserMessage(msg));
         } else {
-            userChatMessages.innerHTML = '<p class="text-center text-slate-400 text-sm py-4">Hali xabar yo\'q. Birinchi yozing!</p>';
+            userChatMessages.innerHTML = '<p class="text-center text-black text-sm py-4">Hali xabar yo\'q. Birinchi yozing!</p>';
         }
 
         // Subscribe to realtime updates
@@ -697,23 +701,23 @@ function appendUserMessage(msg, isOptimistic = false) {
         div.className = 'flex flex-col items-end gap-1 max-w-[85%] ml-auto';
         // Single check for sent, will be updated when confirmed
         const checkIcon = isOptimistic ? 'done' : 'done_all';
-        const checkColor = isOptimistic ? 'text-slate-400' : 'text-primary';
+        const checkColor = isOptimistic ? 'text-black' : 'text-primary';
         div.innerHTML = `
             <div class="bg-primary text-white rounded-2xl rounded-tr-sm px-4 py-2 text-sm shadow-md">
                 ${msg.text}
             </div>
             <div class="flex items-center gap-1 mr-1">
-                <span class="text-[10px] text-slate-400">${time}</span>
+                <span class="text-[10px] text-black">${time}</span>
                 <span class="material-symbols-outlined text-xs ${checkColor}" id="check-${msg.id || 'temp'}">${checkIcon}</span>
             </div>
         `;
     } else {
         div.className = 'flex flex-col items-start gap-1 max-w-[85%]';
         div.innerHTML = `
-            <div class="neu-inset rounded-2xl rounded-tl-sm px-4 py-2 text-sm text-slate-700">
+            <div class="neu-inset rounded-2xl rounded-tl-sm px-4 py-2 text-sm text-black">
                 ${msg.text}
             </div>
-            <span class="text-[10px] text-slate-400 ml-1">${time}</span>
+            <span class="text-[10px] text-black ml-1">${time}</span>
         `;
     }
     userChatMessages.appendChild(div);
@@ -760,7 +764,7 @@ userChatForm?.addEventListener('submit', async (e) => {
             const tempCheck = document.getElementById(`check-temp`);
             if (tempCheck) {
                 tempCheck.textContent = 'done_all';
-                tempCheck.classList.remove('text-slate-400');
+                tempCheck.classList.remove('text-black');
                 tempCheck.classList.add('text-primary');
             }
         }

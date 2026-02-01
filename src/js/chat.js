@@ -38,7 +38,7 @@ export function openChat(murojaatId, user) {
     chatUser = user;
 
     document.getElementById('chat-modal').classList.remove('hidden');
-    document.getElementById('chat-messages').innerHTML = '<p class="text-center text-gray-500">Yuklanmoqda...</p>';
+    document.getElementById('chat-messages').innerHTML = '<p class="text-center text-black">Yuklanmoqda...</p>';
 
     fetchMessages();
     subscribeToMessages();

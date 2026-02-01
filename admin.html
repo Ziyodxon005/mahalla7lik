@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Mahalla Digital - Admin</title>
+    <link rel="icon" type="image/png" href="/logo.png" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
         rel="stylesheet" />
@@ -117,12 +118,12 @@
     </style>
 </head>
 
-<body class="text-slate-800 min-h-screen">
+<body class="text-black min-h-screen">
 
     <!-- Admin Auth -->
     <div id="admin-auth" class="fixed inset-0 z-[100] flex items-center justify-center bg-neu-bg">
         <div class="neu-card p-10 rounded-3xl w-full max-w-md animate-particle">
-            <h2 class="text-xl font-bold mb-6 text-slate-800 text-center">Admin Kirish</h2>
+            <h2 class="text-xl font-bold mb-6 text-black text-center">Admin Kirish</h2>
             <form id="admin-login-form" class="flex flex-col gap-4">
                 <input type="tel" id="admin-phone" placeholder="Telefon raqam"
                     class="w-full neu-inset p-4 rounded-xl border-none outline-none" required />
@@ -135,27 +136,30 @@
     </div>
 
     <div id="admin-app" class="flex h-screen overflow-hidden hidden">
+
+
         <!-- Sidebar -->
         <aside class="w-64 h-full glass-sidebar flex flex-col p-5 animate-particle">
             <div class="flex items-center gap-3 mb-10">
-                <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg">
-                    <span class="material-symbols-outlined">dashboard</span>
+                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg p-1">
+                    <img src="/logo.png" alt="Logo" class="w-full h-full object-contain">
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold text-slate-900">Mahalla Digital</h1>
+                    <h1 class="text-lg font-bold text-slate-800">Mahalla Digital</h1>
                     <p class="text-xs text-slate-500" id="sidebar-role-label">Admin Panel</p>
                 </div>
             </div>
 
-            <nav class="flex-1">
-                <a class="flex items-center gap-3 px-4 py-3 rounded-xl neu-active text-primary font-semibold" href="#">
+            <nav class="flex-1" id="sidebar-nav">
+                <a class="flex items-center gap-3 px-4 py-3 rounded-xl neu-active text-primary font-semibold" href="#"
+                    id="sidebar-murojaatlar-btn">
                     <span class="material-symbols-outlined">inbox</span>
                     <span>Murojaatlar</span>
                 </a>
             </nav>
 
             <button id="admin-logout"
-                class="w-full py-3 rounded-xl neu-btn text-slate-600 font-bold flex items-center justify-center gap-2 hover:text-red-500 transition">
+                class="w-full py-3 rounded-xl neu-btn text-black font-bold flex items-center justify-center gap-2 hover:text-red-500 transition">
                 <span class="material-symbols-outlined text-sm">logout</span>
                 Chiqish
             </button>
@@ -166,18 +170,18 @@
             <!-- Header -->
             <header class="flex items-center justify-between px-6 py-5 animate-particle" style="animation-delay: 0.1s;">
                 <div class="flex items-center gap-4">
-                    <h2 class="text-xl font-bold text-slate-800">Murojaatlar</h2>
+                    <h2 class="text-xl font-bold text-black">Murojaatlar</h2>
                     <div class="relative w-80">
                         <input id="search-input"
                             class="w-full neu-inset rounded-xl px-5 py-3 border-none outline-none text-sm"
                             placeholder="Qidirish..." type="text" />
                         <span
-                            class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+                            class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-black text-lg">search</span>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
                     <div class="text-right">
-                        <p class="text-sm font-bold text-slate-800" id="admin-role-display">Admin</p>
+                        <p class="text-sm font-bold text-black" id="admin-role-display">Admin</p>
                         <p class="text-[10px] text-green-500 font-medium">Faol</p>
                     </div>
                     <div
@@ -193,26 +197,26 @@
                     Barchasi
                 </button>
                 <button data-filter="pending"
-                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-slate-600">
+                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-black">
                     Kutilmoqda
                 </button>
                 <button data-filter="progress"
-                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-slate-600">
+                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-black">
                     Jarayonda
                 </button>
                 <button data-filter="done"
-                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-slate-600">
+                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-black">
                     Bajarildi
                 </button>
                 <button data-filter="rejected"
-                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-slate-600">
+                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-black">
                     Rad etildi
                 </button>
             </div>
 
             <!-- Feed -->
             <div class="flex-1 overflow-y-auto px-6 py-4 space-y-5 no-scrollbar" id="admin-requests-list">
-                <div class="flex flex-col items-center justify-center h-full text-slate-400">
+                <div class="flex flex-col items-center justify-center h-full text-black">
                     <span class="material-symbols-outlined text-4xl mb-2">sync</span>
                     <p>Yuklanmoqda...</p>
                 </div>
@@ -228,13 +232,9 @@
                     <span class="text-sm text-slate-500">Super Admin Panel</span>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button id="toggle-dashboard-btn" onclick="window.toggleDashboard()"
-                        class="neu-btn px-4 py-2 rounded-xl text-sm font-semibold text-primary flex items-center gap-2">
-                        <span class="material-symbols-outlined text-lg">inbox</span>
-                        Murojaatlar
-                    </button>
+                    <!-- Murojaatlar button hidden for super_admin -->
                     <div class="text-right">
-                        <p class="text-sm font-bold text-slate-800">SUPER ADMIN</p>
+                        <p class="text-sm font-bold text-black">SUPER ADMIN</p>
                         <p class="text-[10px] text-green-500 font-medium">Faol</p>
                     </div>
                     <div
@@ -297,7 +297,7 @@
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm">
                             <thead>
-                                <tr class="text-left text-slate-500 border-b border-slate-200">
+                                <tr class="text-left text-slate-600 border-b border-slate-200">
                                     <th class="pb-3 font-semibold">Murojaat</th>
                                     <th class="pb-3 font-semibold">Fuqaro</th>
                                     <th class="pb-3 font-semibold">Kimga</th>
@@ -322,13 +322,13 @@
             id="chat-panel" style="animation-delay: 0.2s;">
             <div class="p-5 border-b border-white/40">
                 <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs font-bold text-slate-400 uppercase">Muloqot</span>
-                    <button onclick="closeChatPanel()" class="text-slate-400 hover:text-slate-600 md:hidden">
+                    <span class="text-xs font-bold text-black uppercase">Muloqot</span>
+                    <button onclick="closeChatPanel()" class="text-black hover:text-black md:hidden">
                         <span class="material-symbols-outlined">close</span>
                     </button>
                 </div>
                 <div class="p-4 rounded-xl neu-inset" id="chat-header-info">
-                    <p class="text-sm text-slate-400 text-center">Murojaatni tanlang</p>
+                    <p class="text-sm text-black text-center">Murojaatni tanlang</p>
                 </div>
             </div>
 
@@ -352,7 +352,7 @@
     <div id="status-modal"
         class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-sm hidden modal-backdrop">
         <div class="neu-card p-8 rounded-3xl w-full max-w-sm mx-4 modal-content">
-            <h3 class="text-lg font-bold text-slate-800 mb-5 text-center">Status O'zgartirish</h3>
+            <h3 class="text-lg font-bold text-black mb-5 text-center">Status O'zgartirish</h3>
 
             <div class="flex flex-col gap-3 mb-5">
                 <button onclick="window.confirmStatusUpdate('progress')"
@@ -373,7 +373,7 @@
             </div>
 
             <div id="reject-input-area" class="hidden mb-5">
-                <label class="text-xs font-bold text-slate-500 mb-2 block">Sabab:</label>
+                <label class="text-xs font-bold text-black mb-2 block">Sabab:</label>
                 <textarea id="reject-reason-text"
                     class="w-full neu-inset rounded-xl p-4 border-none outline-none text-sm" rows="3"
                     placeholder="Rad etish sababini yozing..."></textarea>
@@ -382,7 +382,7 @@
             </div>
 
             <button onclick="window.closeStatusModal()"
-                class="w-full py-2 text-slate-400 font-bold text-sm hover:text-slate-600">Bekor qilish</button>
+                class="w-full py-2 text-black font-bold text-sm hover:text-black">Bekor qilish</button>
         </div>
     </div>
 
@@ -414,20 +414,20 @@
             <!-- Stats Row -->
             <div class="grid grid-cols-4 gap-3 p-4 bg-slate-50">
                 <div class="text-center p-3 rounded-xl neu-card">
-                    <p class="text-2xl font-bold text-slate-800" id="staff-stat-total">0</p>
-                    <p class="text-xs text-slate-500">Jami</p>
+                    <p class="text-2xl font-bold text-black" id="staff-stat-total">0</p>
+                    <p class="text-xs text-black">Jami</p>
                 </div>
                 <div class="text-center p-3 rounded-xl neu-card">
                     <p class="text-2xl font-bold text-amber-600" id="staff-stat-pending">0</p>
-                    <p class="text-xs text-slate-500">Kutilmoqda</p>
+                    <p class="text-xs text-black">Kutilmoqda</p>
                 </div>
                 <div class="text-center p-3 rounded-xl neu-card">
                     <p class="text-2xl font-bold text-green-600" id="staff-stat-done">0</p>
-                    <p class="text-xs text-slate-500">Bajarildi</p>
+                    <p class="text-xs text-black">Bajarildi</p>
                 </div>
                 <div class="text-center p-3 rounded-xl neu-card">
                     <p class="text-2xl font-bold text-red-600" id="staff-stat-rejected">0</p>
-                    <p class="text-xs text-slate-500">Rad etildi</p>
+                    <p class="text-xs text-black">Rad etildi</p>
                 </div>
             </div>
 
@@ -446,18 +446,18 @@
                         </defs>
                     </svg>
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <span class="text-xl font-bold text-slate-800" id="staff-percent">0%</span>
+                        <span class="text-xl font-bold text-black" id="staff-percent">0%</span>
                     </div>
                 </div>
-                <div class="text-sm text-slate-600">
-                    <p class="font-semibold text-slate-800 text-lg" id="staff-efficiency-label">Samaradorlik</p>
-                    <p class="text-slate-500">Hal qilingan murojaatlar foizi</p>
+                <div class="text-sm text-black">
+                    <p class="font-semibold text-black text-lg" id="staff-efficiency-label">Samaradorlik</p>
+                    <p class="text-black">Hal qilingan murojaatlar foizi</p>
                 </div>
             </div>
 
             <!-- Requests List -->
             <div class="flex-1 overflow-y-auto p-4 no-scrollbar">
-                <h4 class="text-sm font-bold text-slate-500 uppercase mb-3">Murojaatlar Ro'yxati</h4>
+                <h4 class="text-sm font-bold text-black uppercase mb-3">Murojaatlar Ro'yxati</h4>
                 <div id="staff-requests-list" class="space-y-2">
                     <!-- Requests will be rendered here -->
                 </div>
@@ -498,40 +498,40 @@
                 <!-- Info Grid -->
                 <div class="p-5 grid grid-cols-2 gap-4 border-b border-slate-200">
                     <div>
-                        <p class="text-xs text-slate-500 mb-1">Kimdan</p>
-                        <p class="font-semibold text-slate-800" id="detail-modal-sender">Noma'lum</p>
+                        <p class="text-xs text-black mb-1">Kimdan</p>
+                        <p class="font-semibold text-black" id="detail-modal-sender">Noma'lum</p>
                     </div>
                     <div>
-                        <p class="text-xs text-slate-500 mb-1">Kimga</p>
-                        <p class="font-semibold text-slate-800" id="detail-modal-target">Noma'lum</p>
+                        <p class="text-xs text-black mb-1">Kimga</p>
+                        <p class="font-semibold text-black" id="detail-modal-target">Noma'lum</p>
                     </div>
                     <div>
-                        <p class="text-xs text-slate-500 mb-1">Sana</p>
-                        <p class="font-semibold text-slate-800" id="detail-modal-date">-</p>
+                        <p class="text-xs text-black mb-1">Sana</p>
+                        <p class="font-semibold text-black" id="detail-modal-date">-</p>
                     </div>
                     <div>
-                        <p class="text-xs text-slate-500 mb-1">Joylashuv</p>
-                        <p class="font-semibold text-slate-800" id="detail-modal-location">-</p>
+                        <p class="text-xs text-black mb-1">Joylashuv</p>
+                        <p class="font-semibold text-black" id="detail-modal-location">-</p>
                     </div>
                 </div>
 
                 <!-- Description -->
                 <div class="p-5 border-b border-slate-200">
-                    <p class="text-xs text-slate-500 mb-2 uppercase">Tavsif</p>
-                    <p class="text-slate-700 whitespace-pre-wrap" id="detail-modal-desc">-</p>
+                    <p class="text-xs text-black mb-2 uppercase">Tavsif</p>
+                    <p class="text-black whitespace-pre-wrap" id="detail-modal-desc">-</p>
                 </div>
 
                 <!-- Chat History (Read Only) -->
                 <div class="p-5">
                     <div class="flex items-center justify-between mb-3">
-                        <p class="text-xs text-slate-500 uppercase">Chat Tarixi</p>
-                        <span class="text-xs text-slate-400 flex items-center gap-1">
+                        <p class="text-xs text-black uppercase">Chat Tarixi</p>
+                        <span class="text-xs text-black flex items-center gap-1">
                             <span class="material-symbols-outlined text-sm">visibility</span>
                             Faqat ko'rish
                         </span>
                     </div>
                     <div id="detail-chat-history" class="space-y-2 max-h-60 overflow-y-auto neu-inset rounded-xl p-3">
-                        <p class="text-center text-slate-400 text-sm py-4">Xabarlar yo'q</p>
+                        <p class="text-center text-black text-sm py-4">Xabarlar yo'q</p>
                     </div>
                 </div>
             </div>
@@ -542,6 +542,37 @@
     <script>
         window.closeChatPanel = () => document.getElementById('chat-panel').classList.add('translate-x-full');
         window.openChatPanelMobile = () => document.getElementById('chat-panel').classList.remove('translate-x-full');
+    </script>
+    <!-- Audio -->
+
+    <script>
+        // Play startup sound
+        window.addEventListener('load', () => {
+            const audio = document.getElementById('startup-sound');
+            const visualizer = document.getElementById('audio-visualizer');
+            const playPromise = audio.play();
+
+            const startVisualizer = () => {
+                visualizer.classList.add('active');
+                audio.onended = () => visualizer.classList.remove('active');
+            };
+
+            const playOnInteraction = () => {
+                audio.play().then(() => {
+                    startVisualizer();
+                    document.removeEventListener('click', playOnInteraction);
+                    document.removeEventListener('keydown', playOnInteraction);
+                }).catch(err => console.log('Autoplay still prevented:', err));
+            };
+
+            if (playPromise !== undefined) {
+                playPromise.then(startVisualizer).catch(error => {
+                    console.log("Autoplay prevented. Waiting for user interaction.");
+                    document.addEventListener('click', playOnInteraction);
+                    document.addEventListener('keydown', playOnInteraction);
+                });
+            }
+        });
     </script>
 </body>
 

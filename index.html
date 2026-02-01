@@ -5,6 +5,7 @@
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>Mahalla Digital - Fuqaro Paneli</title>
+  <link rel="icon" type="image/png" href="/logo.png" />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
     rel="stylesheet" />
@@ -125,14 +126,37 @@
     }
   </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="/src/styles/main.css" />
 </head>
 
-<body class="text-slate-800 min-h-screen">
+<body class="text-black min-h-screen">
+
+  <!-- Animated Background -->
+  <div class="animated-bg">
+    <div class="mesh-gradient"></div>
+    <div class="floating-circle circle-1"></div>
+    <div class="floating-circle circle-2"></div>
+    <div class="floating-circle circle-3"></div>
+  </div>
+
+  <!-- Audio Visualizer Overlay -->
+  <div id="audio-visualizer" class="audio-visualizer">
+    <div class="robot-container">
+      <div class="antenna"></div>
+      <div class="robot-head">
+        <div class="robot-eyes">
+          <div class="eye"></div>
+          <div class="eye"></div>
+        </div>
+        <div class="robot-mouth"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- Auth Modal -->
   <div id="auth-container" class="fixed inset-0 z-[100] flex items-center justify-center bg-neu-bg">
     <div class="neu-card p-10 rounded-3xl w-full max-w-md mx-4 animate-particle">
-      <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center">Xush Kelibsiz</h2>
+      <h2 class="text-2xl font-bold text-black mb-6 text-center">Xush Kelibsiz</h2>
       <form id="auth-form" class="space-y-4">
         <input type="text" id="full-name" placeholder="Ism Familiya"
           class="w-full neu-inset p-4 rounded-xl border-none outline-none hidden">
@@ -143,7 +167,7 @@
         <button type="submit" id="submit-btn"
           class="w-full py-4 bg-primary text-white font-bold rounded-xl hover:brightness-110 transition shadow-lg">Kirish</button>
       </form>
-      <p class="text-center mt-6 text-sm text-slate-500 cursor-pointer hover:text-primary font-bold" id="toggle-auth">
+      <p class="text-center mt-6 text-sm text-black cursor-pointer hover:text-primary font-bold" id="toggle-auth">
         Ro'yxatdan o'tish</p>
     </div>
   </div>
@@ -152,28 +176,28 @@
   <div id="role-modal"
     class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/20 backdrop-blur-sm hidden modal-backdrop">
     <div class="neu-card p-8 rounded-3xl w-full max-w-md mx-4 modal-content">
-      <h3 class="text-lg font-bold text-slate-800 mb-5 text-center">Kimga murojaat qilasiz?</h3>
+      <h3 class="text-lg font-bold text-black mb-5 text-center">Kimga murojaat qilasiz?</h3>
       <div class="grid grid-cols-2 gap-3">
         <button onclick="selectRole('rais', 'Mahalla Raisi')"
-          class="p-4 rounded-xl neu-btn text-sm font-bold text-slate-600 hover:text-primary transition">Mahalla
+          class="p-4 rounded-xl neu-btn text-sm font-bold text-black hover:text-primary transition">Mahalla
           Raisi</button>
         <button onclick="selectRole('hokim_yordamchisi', 'Hokim Yordamchisi')"
-          class="p-4 rounded-xl neu-btn text-sm font-bold text-slate-600 hover:text-primary transition">Hokim
+          class="p-4 rounded-xl neu-btn text-sm font-bold text-black hover:text-primary transition">Hokim
           Yordamchisi</button>
         <button onclick="selectRole('yoshlar_yetakchisi', 'Yoshlar Yetakchisi')"
-          class="p-4 rounded-xl neu-btn text-sm font-bold text-slate-600 hover:text-primary transition">Yoshlar
+          class="p-4 rounded-xl neu-btn text-sm font-bold text-black hover:text-primary transition">Yoshlar
           Yetakchisi</button>
         <button onclick="selectRole('ayollar_faoli', 'Ayollar Faoli')"
-          class="p-4 rounded-xl neu-btn text-sm font-bold text-slate-600 hover:text-primary transition">Ayollar
+          class="p-4 rounded-xl neu-btn text-sm font-bold text-black hover:text-primary transition">Ayollar
           Faoli</button>
         <button onclick="selectRole('inspektor', 'Profilaktika Inspektori')"
-          class="p-4 rounded-xl neu-btn text-sm font-bold text-slate-600 hover:text-primary transition col-span-2">Profilaktika
+          class="p-4 rounded-xl neu-btn text-sm font-bold text-black hover:text-primary transition col-span-2">Profilaktika
           Inspektori</button>
         <button onclick="selectRole('ijtimoiy_xodim', 'Ijtimoiy Xodim')"
-          class="p-4 rounded-xl neu-btn text-sm font-bold text-slate-600 hover:text-primary transition col-span-2">Ijtimoiy
+          class="p-4 rounded-xl neu-btn text-sm font-bold text-black hover:text-primary transition col-span-2">Ijtimoiy
           Xodim</button>
       </div>
-      <button onclick="closeRoleModal()" class="w-full mt-5 py-3 text-slate-400 font-bold hover:text-slate-600">Bekor
+      <button onclick="closeRoleModal()" class="w-full mt-5 py-3 text-black font-bold hover:text-black">Bekor
         qilish</button>
     </div>
   </div>
@@ -184,7 +208,7 @@
     <div class="neu-card p-8 rounded-3xl text-center modal-content">
       <div class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4">
       </div>
-      <p class="text-slate-600 font-bold" id="loading-text">Rasm yuklanmoqda...</p>
+      <p class="text-black font-bold" id="loading-text">Rasm yuklanmoqda...</p>
     </div>
   </div>
 
@@ -196,17 +220,17 @@
       <div class="p-5 border-b border-white/30 flex items-center justify-between">
         <div id="user-chat-header">
           <p class="text-[10px] text-primary font-bold uppercase">Muloqot</p>
-          <h4 class="font-bold text-slate-800 text-sm" id="chat-with-name">Yuklanmoqda...</h4>
+          <h4 class="font-bold text-black text-sm" id="chat-with-name">Yuklanmoqda...</h4>
         </div>
         <button onclick="closeChatModal()"
-          class="w-8 h-8 rounded-full neu-btn flex items-center justify-center text-slate-400 hover:text-slate-600">
+          class="w-8 h-8 rounded-full neu-btn flex items-center justify-center text-black hover:text-black">
           <span class="material-symbols-outlined text-lg">close</span>
         </button>
       </div>
 
       <!-- Chat Messages -->
       <div class="flex-1 overflow-y-auto p-5 space-y-3 no-scrollbar" id="user-chat-messages">
-        <p class="text-center text-slate-400 text-sm py-4">Yuklanmoqda...</p>
+        <p class="text-center text-black text-sm py-4">Yuklanmoqda...</p>
       </div>
 
       <!-- Chat Input -->
@@ -228,14 +252,14 @@
     class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-sm hidden modal-backdrop">
     <div class="neu-card rounded-3xl w-full max-w-2xl mx-4 h-[80vh] flex flex-col overflow-hidden modal-content">
       <div class="p-5 border-b border-white/30 flex items-center justify-between">
-        <h3 class="text-lg font-bold text-slate-800">Barcha Murojaatlarim</h3>
+        <h3 class="text-lg font-bold text-black">Barcha Murojaatlarim</h3>
         <button onclick="closeAllRequestsModal()"
-          class="w-8 h-8 rounded-full neu-btn flex items-center justify-center text-slate-400 hover:text-slate-600">
+          class="w-8 h-8 rounded-full neu-btn flex items-center justify-center text-black hover:text-black">
           <span class="material-symbols-outlined text-lg">close</span>
         </button>
       </div>
       <div class="flex-1 overflow-y-auto p-5 space-y-4 no-scrollbar" id="all-requests-list">
-        <p class="text-center text-slate-400 text-sm py-4">Yuklanmoqda...</p>
+        <p class="text-center text-black text-sm py-4">Yuklanmoqda...</p>
       </div>
     </div>
   </div>
@@ -248,13 +272,13 @@
         <div class="neu-card rounded-3xl p-8">
           <div class="flex items-start justify-between">
             <div>
-              <h2 class="text-2xl md:text-3xl font-bold text-slate-900">Xayrli kun, <span
+              <h2 class="text-2xl md:text-3xl font-bold text-black">Xayrli kun, <span
                   id="user-name-display">Foydalanuvchi</span></h2>
-              <p class="text-slate-500 mt-2">Mahallangizni rivojlantirish uchun murojaat qoldiring.</p>
+              <p class="text-black mt-2">Mahallangizni rivojlantirish uchun murojaat qoldiring.</p>
             </div>
             <div class="flex items-center gap-2">
               <button onclick="logout()"
-                class="w-10 h-10 rounded-full neu-btn flex items-center justify-center text-red-500 hover:text-red-600 transition"
+                class="w-10 h-10 rounded-full neu-btn flex items-center justify-center text-black hover:text-red-600 transition"
                 title="Chiqish">
                 <span class="material-symbols-outlined">logout</span>
               </button>
@@ -269,45 +293,45 @@
         <!-- Form -->
         <div class="lg:col-span-2 animate-particle" style="animation-delay: 0.1s;">
           <div class="neu-card rounded-3xl p-8">
-            <h3 class="text-lg font-bold text-slate-900 mb-6">Yangi Murojaat</h3>
+            <h3 class="text-lg font-bold text-black mb-6">Yangi Murojaat</h3>
 
             <form id="request-form" class="space-y-5">
               <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">Murojaat Mavzusi</label>
+                <label class="block text-sm font-semibold text-black mb-2">Murojaat Mavzusi</label>
                 <input type="text" id="req-title" class="w-full neu-inset p-4 rounded-xl border-none outline-none"
                   placeholder="Masalan: Ko'cha chirog'i yonmayapti" required />
               </div>
 
               <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">Kimga Yuboriladi?</label>
+                <label class="block text-sm font-semibold text-black mb-2">Kimga Yuboriladi?</label>
                 <div onclick="openRoleModal()"
                   class="w-full neu-inset p-4 rounded-xl flex items-center justify-between cursor-pointer hover:ring-2 hover:ring-primary/30 transition">
-                  <span id="selected-role-text" class="text-slate-400">Rahbarni tanlang...</span>
-                  <span class="material-symbols-outlined text-slate-400">expand_more</span>
+                  <span id="selected-role-text" class="text-black">Rahbarni tanlang...</span>
+                  <span class="material-symbols-outlined text-black">expand_more</span>
                 </div>
                 <input type="hidden" id="req-target-role">
               </div>
 
               <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">Batafsil Tavsif</label>
+                <label class="block text-sm font-semibold text-black mb-2">Batafsil Tavsif</label>
                 <textarea id="req-desc" class="w-full neu-inset p-4 rounded-xl border-none outline-none min-h-[120px]"
                   placeholder="Muammo haqida to'liq yozing..." required></textarea>
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label class="block text-sm font-semibold text-slate-700 mb-2">Rasm Yuklash</label>
+                  <label class="block text-sm font-semibold text-black mb-2">Rasm Yuklash</label>
                   <div id="drop-zone"
                     class="w-full h-40 rounded-xl neu-inset flex flex-col items-center justify-center gap-2 cursor-pointer hover:ring-2 hover:ring-primary/30 transition relative overflow-hidden">
-                    <span class="material-symbols-outlined text-3xl text-slate-300">cloud_upload</span>
-                    <p class="text-sm text-slate-400">Rasm tanlash</p>
+                    <span class="material-symbols-outlined text-3xl text-black">cloud_upload</span>
+                    <p class="text-sm text-black">Rasm tanlash</p>
                     <input type="file" id="req-image" class="hidden" accept="image/*">
                     <img id="image-preview" class="hidden w-full h-full object-cover absolute inset-0">
                   </div>
                 </div>
 
                 <div>
-                  <label class="block text-sm font-semibold text-slate-700 mb-2">Joylashuv</label>
+                  <label class="block text-sm font-semibold text-black mb-2">Joylashuv</label>
                   <div class="w-full h-40 rounded-xl overflow-hidden neu-card relative" style="z-index: 1;">
                     <div id="map" class="w-full h-full"></div>
                     <input type="hidden" id="req-lat">
@@ -328,12 +352,12 @@
         <div class="lg:col-span-1 animate-particle" style="animation-delay: 0.2s;">
           <div class="neu-card rounded-3xl p-6">
             <div class="flex items-center justify-between mb-6">
-              <h3 class="text-lg font-bold text-slate-900">Murojaatlarim</h3>
+              <h3 class="text-lg font-bold text-black">Murojaatlarim</h3>
               <button class="text-primary text-xs font-bold hover:underline" onclick="openAllRequestsModal()">Barchasini
                 ko'rish</button>
             </div>
             <div id="requests-list" class="space-y-4 max-h-[400px] overflow-y-auto no-scrollbar">
-              <p class="text-sm text-slate-400 text-center py-10">Yuklanmoqda...</p>
+              <p class="text-sm text-black text-center py-10">Yuklanmoqda...</p>
             </div>
           </div>
         </div>
@@ -345,7 +369,39 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module" src="/src/js/app.js"></script>
   <script type="module" src="/src/js/map.js"></script>
+  <audio id="startup-sound" src="/ovoz.wav" preload="auto"></audio>
   <script>
+    // Play startup sound logic wrapped in a function to be called from app.js
+    window.initAudioVisualization = () => {
+      const audio = document.getElementById('startup-sound');
+      const visualizer = document.getElementById('audio-visualizer');
+      if (!audio || !visualizer) return;
+
+      const startVisualizer = () => {
+        visualizer.classList.add('active');
+        audio.onended = () => visualizer.classList.remove('active');
+      };
+
+      const playOnInteraction = () => {
+        audio.play().then(() => {
+          startVisualizer();
+          document.removeEventListener('click', playOnInteraction);
+          document.removeEventListener('touchstart', playOnInteraction);
+          document.removeEventListener('keydown', playOnInteraction);
+        }).catch(err => console.log('Autoplay still prevented:', err));
+      };
+
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(startVisualizer).catch(error => {
+          console.log("Autoplay prevented. Waiting for user interaction.");
+          document.addEventListener('click', playOnInteraction);
+          document.addEventListener('touchstart', playOnInteraction);
+          document.addEventListener('keydown', playOnInteraction);
+        });
+      }
+    };
+
     window.openRoleModal = () => document.getElementById('role-modal').classList.remove('hidden');
     window.closeRoleModal = () => document.getElementById('role-modal').classList.add('hidden');
     window.closeChatModal = () => document.getElementById('chat-modal').classList.add('hidden');
@@ -355,8 +411,8 @@
       document.getElementById('req-target-role').value = role;
       const textSpan = document.getElementById('selected-role-text');
       textSpan.textContent = label;
-      textSpan.classList.remove('text-slate-400');
-      textSpan.classList.add('text-slate-800');
+      textSpan.classList.remove('text-black');
+      textSpan.classList.add('text-black');
       window.closeRoleModal();
     };
 
