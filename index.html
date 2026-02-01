@@ -416,11 +416,6 @@
       window.closeRoleModal();
     };
 
-    window.logout = async () => {
-      const { logout } = await import('/src/js/auth.js');
-      await logout();
-      window.location.reload();
-    };
   </script>
 </body>
 

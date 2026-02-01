@@ -5,6 +5,16 @@ import { uploadToTelegraph } from './upload.js';
 import { login, register, logout } from './auth.js';
 import { showToast } from './utils.js';
 
+// Expose logout to window for index.html onclick handler
+window.logout = async () => {
+    try {
+        await logout();
+        window.location.reload();
+    } catch (err) {
+        showToast(err.message, 'error');
+    }
+};
+
 // DOM Elements
 const authContainer = document.getElementById('auth-container');
 const mainInterface = document.getElementById('main-interface');
