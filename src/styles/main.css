@@ -672,3 +672,192 @@ img {
   opacity: 1;
   background: radial-gradient(circle at 95% 50%, rgba(239, 68, 68, 0.1), transparent 40%);
 }
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+/* Tablet (768px and below) */
+@media (max-width: 768px) {
+  .neu-card {
+    box-shadow: 5px 5px 10px rgb(163, 177, 198, 0.5), -5px -5px 10px rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-lg);
+  }
+
+  .neu-input {
+    padding: 12px 16px;
+    font-size: 0.95rem;
+  }
+
+  .neu-textarea {
+    padding: 16px;
+  }
+
+  .neu-btn-primary {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+  }
+
+  .neu-btn-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+
+  .category-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.3rem;
+  }
+
+  /* Hide floating circles on tablet for performance */
+  .floating-circle {
+    display: none;
+  }
+
+  .mesh-gradient {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+/* Mobile (480px and below) */
+@media (max-width: 480px) {
+  :root {
+    --radius-xl: 20px;
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --radius-sm: 6px;
+  }
+
+  .neu-card {
+    box-shadow: 4px 4px 8px rgb(163, 177, 198, 0.4), -4px -4px 8px rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-lg);
+  }
+
+  .neu-input {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    border-radius: 30px;
+  }
+
+  .neu-textarea {
+    padding: 14px;
+    font-size: 0.9rem;
+    border-radius: var(--radius-md);
+  }
+
+  .neu-btn-primary {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .neu-btn-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .category-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+  }
+
+  .category-label {
+    font-size: 0.65rem;
+  }
+
+  .badge {
+    padding: 3px 10px;
+    font-size: 0.65rem;
+  }
+
+  .chat-bubble {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    max-width: 85%;
+  }
+
+  /* Timeline adjustments */
+  .timeline {
+    padding-left: 15px;
+  }
+
+  .timeline-icon {
+    left: -28px;
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+  }
+
+  /* Animated background - minimize for performance */
+  .animated-bg {
+    background: linear-gradient(135deg, #f0f0ff 0%, #e8f4fc 100%);
+  }
+
+  .mesh-gradient {
+    display: none;
+  }
+
+  .floating-circle {
+    display: none;
+  }
+
+  /* Robot visualizer */
+  .robot-head {
+    width: 80px;
+    height: 65px;
+  }
+
+  .eye {
+    width: 10px;
+    height: 10px;
+  }
+
+  .robot-mouth {
+    width: 30px;
+    height: 3px;
+  }
+
+  .antenna {
+    width: 4px;
+    height: 15px;
+  }
+
+  .antenna::after {
+    width: 6px;
+    height: 6px;
+    top: -6px;
+  }
+}
+
+/* Extra small devices (360px and below) */
+@media (max-width: 360px) {
+  .neu-input {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .neu-btn-primary {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  .neu-btn-icon {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Landscape mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .audio-visualizer {
+    padding-bottom: 10px;
+  }
+
+  .robot-head {
+    width: 60px;
+    height: 50px;
+  }
+}

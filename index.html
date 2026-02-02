@@ -124,6 +124,21 @@
     #loading-modal {
       z-index: 9999 !important;
     }
+
+    /* Responsive Adjustments */
+    @media (max-width: 640px) {
+      .neu-card {
+        box-shadow: 4px 4px 8px #b8bec7, -4px -4px 8px #ffffff;
+      }
+
+      .neu-inset {
+        box-shadow: inset 3px 3px 6px #b8bec7, inset -3px -3px 6px #ffffff;
+      }
+
+      .neu-btn {
+        box-shadow: 3px 3px 6px #b8bec7, -3px -3px 6px #ffffff;
+      }
+    }
   </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="/src/styles/main.css" />
@@ -154,9 +169,9 @@
   </div>
 
   <!-- Auth Modal -->
-  <div id="auth-container" class="fixed inset-0 z-[100] flex items-center justify-center bg-neu-bg">
-    <div class="neu-card p-10 rounded-3xl w-full max-w-md mx-4 animate-particle">
-      <h2 class="text-2xl font-bold text-black mb-6 text-center">Xush Kelibsiz</h2>
+  <div id="auth-container" class="fixed inset-0 z-[100] flex items-center justify-center bg-neu-bg p-4">
+    <div class="neu-card p-6 sm:p-10 rounded-2xl sm:rounded-3xl w-full max-w-md animate-particle">
+      <h2 class="text-xl sm:text-2xl font-bold text-black mb-4 sm:mb-6 text-center">Xush Kelibsiz</h2>
       <form id="auth-form" class="space-y-4">
         <input type="text" id="full-name" placeholder="Ism Familiya"
           class="w-full neu-inset p-4 rounded-xl border-none outline-none hidden">
@@ -181,9 +196,10 @@
   <!-- Target Role Modal -->
   <div id="role-modal"
     class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/20 backdrop-blur-sm hidden modal-backdrop">
-    <div class="neu-card p-8 rounded-3xl w-full max-w-md mx-4 modal-content">
-      <h3 class="text-lg font-bold text-black mb-5 text-center">Kimga murojaat qilasiz?</h3>
-      <div class="grid grid-cols-2 gap-3">
+    <div
+      class="neu-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl w-full max-w-md mx-4 modal-content max-h-[90vh] overflow-y-auto">
+      <h3 class="text-base sm:text-lg font-bold text-black mb-4 sm:mb-5 text-center">Kimga murojaat qilasiz?</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
         <button onclick="selectRole('rais', 'Mahalla Raisi')"
           class="p-4 rounded-xl neu-btn text-sm font-bold text-black hover:text-primary transition">Mahalla
           Raisi</button>
@@ -224,7 +240,8 @@
   <!-- Chat Modal (User side) -->
   <div id="chat-modal"
     class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-sm hidden modal-backdrop">
-    <div class="neu-card rounded-3xl w-full max-w-lg mx-4 h-[80vh] flex flex-col overflow-hidden modal-content">
+    <div
+      class="neu-card rounded-2xl sm:rounded-3xl w-full max-w-lg mx-2 sm:mx-4 h-[85vh] sm:h-[80vh] flex flex-col overflow-hidden modal-content">
       <!-- Chat Header -->
       <div class="p-5 border-b border-white/30 flex items-center justify-between">
         <div id="user-chat-header">
@@ -259,7 +276,8 @@
   <!-- All Requests Modal -->
   <div id="all-requests-modal"
     class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-sm hidden modal-backdrop">
-    <div class="neu-card rounded-3xl w-full max-w-2xl mx-4 h-[80vh] flex flex-col overflow-hidden modal-content">
+    <div
+      class="neu-card rounded-2xl sm:rounded-3xl w-full max-w-2xl mx-2 sm:mx-4 h-[85vh] sm:h-[80vh] flex flex-col overflow-hidden modal-content">
       <div class="p-5 border-b border-white/30 flex items-center justify-between">
         <h3 class="text-lg font-bold text-black">Barcha Murojaatlarim</h3>
         <button onclick="closeAllRequestsModal()"
@@ -275,24 +293,27 @@
 
   <!-- Main Interface -->
   <div id="main-interface" class="hidden">
-    <main class="max-w-6xl mx-auto px-4 md:px-8 py-8">
+    <main class="max-w-6xl mx-auto px-3 sm:px-4 md:px-8 py-4 sm:py-6 md:py-8">
       <!-- Hero with User Actions -->
       <section class="mb-8 animate-particle">
-        <div class="neu-card rounded-3xl p-8">
-          <div class="flex items-start justify-between">
-            <div>
-              <h2 class="text-2xl md:text-3xl font-bold text-black">Xayrli kun, <span
+        <div class="neu-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8">
+          <div class="flex items-center justify-between gap-4">
+            <!-- Left side: Greeting -->
+            <div class="flex-1 min-w-0">
+              <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-black truncate">Xayrli kun, <span
                   id="user-name-display">Foydalanuvchi</span></h2>
-              <p class="text-black mt-2">Mahallangizni rivojlantirish uchun murojaat qoldiring.</p>
+              <p class="text-black text-xs sm:text-sm">Mahallangizni rivojlantirish uchun murojaat qoldiring.</p>
             </div>
-            <div class="flex items-center gap-2">
+
+            <!-- Right side: Avatar and Logout -->
+            <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+              <div class="w-10 h-10 rounded-full neu-card flex items-center justify-center text-primary font-bold"
+                id="user-avatar-initial">U</div>
               <button onclick="logout()"
                 class="w-10 h-10 rounded-full neu-btn flex items-center justify-center text-black hover:text-red-600 transition"
                 title="Chiqish">
                 <span class="material-symbols-outlined">logout</span>
               </button>
-              <div class="w-10 h-10 rounded-full neu-card flex items-center justify-center text-primary font-bold"
-                id="user-avatar-initial">U</div>
             </div>
           </div>
         </div>
@@ -301,8 +322,8 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Form -->
         <div class="lg:col-span-2 animate-particle" style="animation-delay: 0.1s;">
-          <div class="neu-card rounded-3xl p-8">
-            <h3 class="text-lg font-bold text-black mb-6">Yangi Murojaat</h3>
+          <div class="neu-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8">
+            <h3 class="text-base sm:text-lg font-bold text-black mb-4 sm:mb-6">Yangi Murojaat</h3>
 
             <form id="request-form" class="space-y-5">
               <div>
@@ -327,7 +348,7 @@
                   placeholder="Muammo haqida to'liq yozing..." required></textarea>
               </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label class="block text-sm font-semibold text-black mb-2">Rasm Yuklash</label>
                   <div id="drop-zone"
@@ -351,7 +372,7 @@
 
               <div class="flex justify-end pt-2">
                 <button type="submit"
-                  class="px-8 py-3 bg-primary text-white font-bold rounded-xl hover:brightness-110 transition shadow-lg">Yuborish</button>
+                  class="w-full sm:w-auto px-8 py-3 bg-primary text-white font-bold rounded-xl hover:brightness-110 transition shadow-lg">Yuborish</button>
               </div>
             </form>
           </div>
@@ -359,9 +380,9 @@
 
         <!-- Timeline -->
         <div class="lg:col-span-1 animate-particle" style="animation-delay: 0.2s;">
-          <div class="neu-card rounded-3xl p-6">
-            <div class="flex items-center justify-between mb-6">
-              <h3 class="text-lg font-bold text-black">Murojaatlarim</h3>
+          <div class="neu-card rounded-2xl sm:rounded-3xl p-4 sm:p-6">
+            <div class="flex items-center justify-between mb-4 sm:mb-6">
+              <h3 class="text-base sm:text-lg font-bold text-black">Murojaatlarim</h3>
               <button class="text-primary text-xs font-bold hover:underline" onclick="openAllRequestsModal()">Barchasini
                 ko'rish</button>
             </div>

@@ -115,6 +115,73 @@
             animation: particleFadeIn 0.4s ease-out;
             animation-fill-mode: both;
         }
+
+        /* Mobile sidebar */
+        .mobile-sidebar-overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-sidebar-overlay.active .mobile-sidebar {
+            transform: translateX(0);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .neu-card {
+                box-shadow: 4px 4px 8px #b8bec7, -4px -4px 8px #ffffff;
+            }
+
+            .neu-inset {
+                box-shadow: inset 3px 3px 6px #b8bec7, inset -3px -3px 6px #ffffff;
+            }
+
+            .neu-btn {
+                box-shadow: 3px 3px 6px #b8bec7, -3px -3px 6px #ffffff;
+            }
+
+            /* Mobile: full page scroll */
+            #admin-app {
+                height: auto !important;
+                min-height: 100vh;
+                overflow: visible !important;
+                flex-direction: column;
+            }
+
+            #admin-app>main {
+                overflow: visible !important;
+            }
+
+            #admin-requests-list {
+                overflow: visible !important;
+                max-height: none !important;
+            }
+        }
+
+        /* Desktop sidebar fix */
+        @media (min-width: 769px) {
+            .desktop-sidebar {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+            }
+
+            .desktop-sidebar .sidebar-logout {
+                margin-top: auto;
+                flex-shrink: 0;
+            }
+        }
     </style>
 </head>
 
@@ -141,11 +208,41 @@
         </div>
     </div>
 
-    <div id="admin-app" class="flex h-screen overflow-hidden hidden">
+    <div id="admin-app" class="flex h-screen overflow-auto md:overflow-hidden hidden">
 
+        <!-- Mobile Sidebar Overlay -->
+        <div id="mobile-sidebar-overlay" class="mobile-sidebar-overlay fixed inset-0 bg-black/50 z-40 md:hidden"
+            onclick="closeMobileSidebar()">
+            <aside class="mobile-sidebar w-64 h-full glass-sidebar flex flex-col p-5">
+                <div class="flex items-center gap-3 mb-10">
+                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg p-1">
+                        <img src="/logo.png" alt="Logo" class="w-full h-full object-contain">
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-slate-800">Mahalla Digital</h1>
+                        <p class="text-xs text-slate-500" id="mobile-sidebar-role">Admin Panel</p>
+                    </div>
+                </div>
 
-        <!-- Sidebar -->
-        <aside class="w-64 h-full glass-sidebar flex flex-col p-5 animate-particle">
+                <nav class="flex-1">
+                    <a class="flex items-center gap-3 px-4 py-3 rounded-xl neu-active text-primary font-semibold"
+                        href="#">
+                        <span class="material-symbols-outlined">inbox</span>
+                        <span>Murojaatlar</span>
+                    </a>
+                </nav>
+
+                <button onclick="adminLogoutMobile()"
+                    class="w-full py-3 rounded-xl neu-btn text-black font-bold flex items-center justify-center gap-2 hover:text-red-500 transition">
+                    <span class="material-symbols-outlined text-sm">logout</span>
+                    Chiqish
+                </button>
+            </aside>
+        </div>
+
+        <!-- Desktop Sidebar -->
+        <aside
+            class="hidden md:flex w-64 h-full flex-shrink-0 glass-sidebar flex-col p-5 animate-particle desktop-sidebar">
             <div class="flex items-center gap-3 mb-10">
                 <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg p-1">
                     <img src="/logo.png" alt="Logo" class="w-full h-full object-contain">
@@ -156,7 +253,7 @@
                 </div>
             </div>
 
-            <nav class="flex-1" id="sidebar-nav">
+            <nav class="flex-1 min-h-0" id="sidebar-nav">
                 <a class="flex items-center gap-3 px-4 py-3 rounded-xl neu-active text-primary font-semibold" href="#"
                     id="sidebar-murojaatlar-btn">
                     <span class="material-symbols-outlined">inbox</span>
@@ -165,28 +262,40 @@
             </nav>
 
             <button id="admin-logout"
-                class="w-full py-3 rounded-xl neu-btn text-black font-bold flex items-center justify-center gap-2 hover:text-red-500 transition">
+                class="w-full py-3 rounded-xl neu-btn text-black font-bold flex items-center justify-center gap-2 hover:text-red-500 transition sidebar-logout">
                 <span class="material-symbols-outlined text-sm">logout</span>
                 Chiqish
             </button>
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 flex flex-col overflow-hidden">
+        <main class="flex-1 flex flex-col min-h-0 min-w-0 overflow-hidden">
             <!-- Header -->
-            <header class="flex items-center justify-between px-6 py-5 animate-particle" style="animation-delay: 0.1s;">
-                <div class="flex items-center gap-4">
-                    <h2 class="text-xl font-bold text-black">Murojaatlar</h2>
-                    <div class="relative w-80">
+            <header class="flex items-center justify-between px-4 md:px-6 py-4 md:py-5 animate-particle"
+                style="animation-delay: 0.1s;">
+                <div class="flex items-center gap-2 md:gap-4">
+                    <!-- Hamburger Menu -->
+                    <button onclick="openMobileSidebar()"
+                        class="md:hidden w-10 h-10 rounded-xl neu-btn flex items-center justify-center">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <h2 class="text-lg md:text-xl font-bold text-black">Murojaatlar</h2>
+                    <div class="relative w-40 sm:w-60 md:w-80 hidden sm:block">
                         <input id="search-input"
-                            class="w-full neu-inset rounded-xl px-5 py-3 border-none outline-none text-sm"
+                            class="w-full neu-inset rounded-xl px-4 md:px-5 py-2 md:py-3 border-none outline-none text-sm"
                             placeholder="Qidirish..." type="text" />
                         <span
-                            class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-black text-lg">search</span>
+                            class="material-symbols-outlined absolute right-3 md:right-4 top-1/2 -translate-y-1/2 text-black text-lg">search</span>
                     </div>
                 </div>
-                <div class="flex items-center gap-3">
-                    <div class="text-right">
+                <div class="flex items-center gap-2 md:gap-3">
+                    <!-- Logout button in header -->
+                    <button id="header-logout-btn" onclick="document.getElementById('admin-logout').click()"
+                        class="w-10 h-10 rounded-full neu-btn flex items-center justify-center text-black hover:text-red-500 transition"
+                        title="Chiqish">
+                        <span class="material-symbols-outlined">logout</span>
+                    </button>
+                    <div class="text-right hidden sm:block">
                         <p class="text-sm font-bold text-black" id="admin-role-display">Admin</p>
                         <p class="text-[10px] text-green-500 font-medium">Faol</p>
                     </div>
@@ -197,31 +306,33 @@
             </header>
 
             <!-- Filters -->
-            <div class="px-6 pb-4 flex gap-3 animate-particle" id="filters-container" style="animation-delay: 0.15s;">
+            <div class="px-4 md:px-6 pb-3 md:pb-4 flex gap-2 md:gap-3 overflow-x-auto no-scrollbar animate-particle"
+                id="filters-container" style="animation-delay: 0.15s;">
                 <button data-filter="all"
-                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-active text-primary">
+                    class="filter-btn px-4 md:px-5 py-2 rounded-xl text-xs md:text-sm font-semibold neu-active text-primary whitespace-nowrap">
                     Barchasi
                 </button>
                 <button data-filter="pending"
-                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-black">
+                    class="filter-btn px-4 md:px-5 py-2 rounded-xl text-xs md:text-sm font-semibold neu-btn text-black whitespace-nowrap">
                     Kutilmoqda
                 </button>
                 <button data-filter="progress"
-                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-black">
+                    class="filter-btn px-4 md:px-5 py-2 rounded-xl text-xs md:text-sm font-semibold neu-btn text-black whitespace-nowrap">
                     Jarayonda
                 </button>
                 <button data-filter="done"
-                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-black">
+                    class="filter-btn px-4 md:px-5 py-2 rounded-xl text-xs md:text-sm font-semibold neu-btn text-black whitespace-nowrap">
                     Bajarildi
                 </button>
                 <button data-filter="rejected"
-                    class="filter-btn px-5 py-2 rounded-xl text-sm font-semibold neu-btn text-black">
+                    class="filter-btn px-4 md:px-5 py-2 rounded-xl text-xs md:text-sm font-semibold neu-btn text-black whitespace-nowrap">
                     Rad etildi
                 </button>
             </div>
 
             <!-- Feed -->
-            <div class="flex-1 overflow-y-auto px-6 py-4 space-y-5 no-scrollbar" id="admin-requests-list">
+            <div class="flex-1 overflow-y-auto px-4 md:px-6 py-3 md:py-4 space-y-4 md:space-y-5"
+                id="admin-requests-list">
                 <div class="flex flex-col items-center justify-center h-full text-black">
                     <span class="material-symbols-outlined text-4xl mb-2">sync</span>
                     <p>Yuklanmoqda...</p>
@@ -238,7 +349,12 @@
                     <span class="text-sm text-slate-500">Super Admin Panel</span>
                 </div>
                 <div class="flex items-center gap-3">
-                    <!-- Murojaatlar button hidden for super_admin -->
+                    <!-- Logout button -->
+                    <button onclick="document.getElementById('admin-logout').click()"
+                        class="w-10 h-10 rounded-full neu-btn flex items-center justify-center text-black hover:text-red-500 transition"
+                        title="Chiqish">
+                        <span class="material-symbols-outlined">logout</span>
+                    </button>
                     <div class="text-right">
                         <p class="text-sm font-bold text-black">SUPER ADMIN</p>
                         <p class="text-[10px] text-green-500 font-medium">Faol</p>
@@ -251,37 +367,43 @@
             </header>
 
             <!-- Stats Cards -->
-            <div class="px-6 py-4 grid grid-cols-5 gap-4 animate-particle" style="animation-delay: 0.1s;">
-                <div class="neu-card rounded-2xl p-5 text-center">
-                    <span class="material-symbols-outlined text-3xl text-slate-400 mb-2">assignment</span>
-                    <p class="text-3xl font-bold text-slate-800" id="stat-total">0</p>
-                    <p class="text-xs text-slate-500 mt-1">Jami</p>
+            <div class="px-4 md:px-6 py-3 md:py-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 md:gap-4 animate-particle"
+                style="animation-delay: 0.1s;">
+                <div class="neu-card rounded-xl md:rounded-2xl p-3 md:p-5 text-center">
+                    <span
+                        class="material-symbols-outlined text-2xl md:text-3xl text-slate-400 mb-1 md:mb-2">assignment</span>
+                    <p class="text-xl md:text-3xl font-bold text-slate-800" id="stat-total">0</p>
+                    <p class="text-[10px] md:text-xs text-slate-500 mt-1">Jami</p>
                 </div>
-                <div class="neu-card rounded-2xl p-5 text-center">
-                    <span class="material-symbols-outlined text-3xl text-amber-500 mb-2">schedule</span>
-                    <p class="text-3xl font-bold text-amber-600" id="stat-pending">0</p>
-                    <p class="text-xs text-slate-500 mt-1">Kutilmoqda</p>
+                <div class="neu-card rounded-xl md:rounded-2xl p-3 md:p-5 text-center">
+                    <span
+                        class="material-symbols-outlined text-2xl md:text-3xl text-amber-500 mb-1 md:mb-2">schedule</span>
+                    <p class="text-xl md:text-3xl font-bold text-amber-600" id="stat-pending">0</p>
+                    <p class="text-[10px] md:text-xs text-slate-500 mt-1">Kutilmoqda</p>
                 </div>
-                <div class="neu-card rounded-2xl p-5 text-center">
-                    <span class="material-symbols-outlined text-3xl text-blue-500 mb-2">pending</span>
-                    <p class="text-3xl font-bold text-blue-600" id="stat-progress">0</p>
-                    <p class="text-xs text-slate-500 mt-1">Jarayonda</p>
+                <div class="neu-card rounded-xl md:rounded-2xl p-3 md:p-5 text-center">
+                    <span
+                        class="material-symbols-outlined text-2xl md:text-3xl text-blue-500 mb-1 md:mb-2">pending</span>
+                    <p class="text-xl md:text-3xl font-bold text-blue-600" id="stat-progress">0</p>
+                    <p class="text-[10px] md:text-xs text-slate-500 mt-1">Jarayonda</p>
                 </div>
-                <div class="neu-card rounded-2xl p-5 text-center">
-                    <span class="material-symbols-outlined text-3xl text-green-500 mb-2">check_circle</span>
-                    <p class="text-3xl font-bold text-green-600" id="stat-done">0</p>
-                    <p class="text-xs text-slate-500 mt-1">Bajarildi</p>
+                <div class="neu-card rounded-xl md:rounded-2xl p-3 md:p-5 text-center">
+                    <span
+                        class="material-symbols-outlined text-2xl md:text-3xl text-green-500 mb-1 md:mb-2">check_circle</span>
+                    <p class="text-xl md:text-3xl font-bold text-green-600" id="stat-done">0</p>
+                    <p class="text-[10px] md:text-xs text-slate-500 mt-1">Bajarildi</p>
                 </div>
-                <div class="neu-card rounded-2xl p-5 text-center">
-                    <span class="material-symbols-outlined text-3xl text-red-500 mb-2">cancel</span>
-                    <p class="text-3xl font-bold text-red-600" id="stat-rejected">0</p>
-                    <p class="text-xs text-slate-500 mt-1">Rad etildi</p>
+                <div class="neu-card rounded-xl md:rounded-2xl p-3 md:p-5 text-center col-span-2 sm:col-span-1">
+                    <span class="material-symbols-outlined text-2xl md:text-3xl text-red-500 mb-1 md:mb-2">cancel</span>
+                    <p class="text-xl md:text-3xl font-bold text-red-600" id="stat-rejected">0</p>
+                    <p class="text-[10px] md:text-xs text-slate-500 mt-1">Rad etildi</p>
                 </div>
             </div>
 
             <!-- Staff Statistics -->
-            <div class="px-6 flex-1 overflow-y-auto no-scrollbar animate-particle" style="animation-delay: 0.15s;">
-                <div class="neu-card rounded-2xl p-6 mb-4">
+            <div class="px-4 md:px-6 flex-1 overflow-y-auto no-scrollbar animate-particle"
+                style="animation-delay: 0.15s;">
+                <div class="neu-card rounded-xl md:rounded-2xl p-4 md:p-6 mb-4">
                     <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary">group</span>
                         Xodimlar Statistikasi
@@ -295,8 +417,8 @@
                 </div>
 
                 <!-- Recent Requests Table -->
-                <div class="neu-card rounded-2xl p-6 mb-6">
-                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <div class="neu-card rounded-xl md:rounded-2xl p-4 md:p-6 mb-6">
+                    <h3 class="text-base md:text-lg font-bold text-slate-800 mb-3 md:mb-4 flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary">list_alt</span>
                         So'nggi Murojaatlar
                     </h3>
@@ -324,7 +446,7 @@
 
         <!-- Chat Panel -->
         <aside
-            class="w-96 h-full bg-neu-bg border-l border-white/40 flex flex-col transition-transform transform translate-x-full md:translate-x-0 absolute md:relative right-0 z-10 animate-particle"
+            class="w-full md:w-96 h-full bg-neu-bg border-l border-white/40 flex flex-col transition-all transform fixed md:relative right-0 z-30 translate-x-full md:translate-x-0 animate-particle"
             id="chat-panel" style="animation-delay: 0.2s;">
             <div class="p-5 border-b border-white/40">
                 <div class="flex items-center justify-between mb-3">
@@ -354,10 +476,10 @@
         </aside>
     </div>
 
-    <!-- Status Modal - High z-index -->
+    <!-- Status Modal -->
     <div id="status-modal"
-        class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-sm hidden modal-backdrop">
-        <div class="neu-card p-8 rounded-3xl w-full max-w-sm mx-4 modal-content">
+        class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-sm hidden modal-backdrop p-4">
+        <div class="neu-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl w-full max-w-sm modal-content">
             <h3 class="text-lg font-bold text-black mb-5 text-center">Status O'zgartirish</h3>
 
             <div class="flex flex-col gap-3 mb-5">
@@ -394,9 +516,9 @@
 
     <!-- Staff Detail Modal -->
     <div id="staff-detail-modal"
-        class="fixed inset-0 z-[9998] flex items-center justify-center bg-black/40 backdrop-blur-sm hidden modal-backdrop">
+        class="fixed inset-0 z-[9998] flex items-center justify-center bg-black/40 backdrop-blur-sm hidden modal-backdrop p-2 sm:p-4">
         <div
-            class="neu-card p-0 rounded-3xl w-full max-w-2xl mx-4 modal-content overflow-hidden max-h-[90vh] flex flex-col">
+            class="neu-card p-0 rounded-2xl sm:rounded-3xl w-full max-w-2xl modal-content overflow-hidden max-h-[95vh] sm:max-h-[90vh] flex flex-col">
             <!-- Modal Header -->
             <div class="bg-gradient-to-r from-primary to-blue-600 p-6 text-white">
                 <div class="flex items-center justify-between">
@@ -418,7 +540,7 @@
             </div>
 
             <!-- Stats Row -->
-            <div class="grid grid-cols-4 gap-3 p-4 bg-slate-50">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 p-3 sm:p-4 bg-slate-50">
                 <div class="text-center p-3 rounded-xl neu-card">
                     <p class="text-2xl font-bold text-black" id="staff-stat-total">0</p>
                     <p class="text-xs text-black">Jami</p>
@@ -471,11 +593,11 @@
         </div>
     </div>
 
-    <!-- Request Detail Modal (Super Admin - Read Only) -->
+    <!-- Request Detail Modal -->
     <div id="request-detail-modal"
-        class="fixed inset-0 z-[9997] flex items-center justify-center bg-black/50 backdrop-blur-sm hidden modal-backdrop">
+        class="fixed inset-0 z-[9997] flex items-center justify-center bg-black/50 backdrop-blur-sm hidden modal-backdrop p-2 sm:p-4">
         <div
-            class="neu-card p-0 rounded-3xl w-full max-w-3xl mx-4 modal-content overflow-hidden max-h-[90vh] flex flex-col">
+            class="neu-card p-0 rounded-2xl sm:rounded-3xl w-full max-w-3xl modal-content overflow-hidden max-h-[95vh] sm:max-h-[90vh] flex flex-col">
             <!-- Modal Header -->
             <div class="bg-gradient-to-r from-slate-700 to-slate-900 p-5 text-white">
                 <div class="flex items-center justify-between">
@@ -546,6 +668,14 @@
 
     <script type="module" src="/src/js/admin.js"></script>
     <script>
+        // Mobile Sidebar Functions
+        window.openMobileSidebar = () => document.getElementById('mobile-sidebar-overlay').classList.add('active');
+        window.closeMobileSidebar = () => document.getElementById('mobile-sidebar-overlay').classList.remove('active');
+        window.adminLogoutMobile = () => {
+            closeMobileSidebar();
+            document.getElementById('admin-logout').click();
+        };
+
         window.closeChatPanel = () => document.getElementById('chat-panel').classList.add('translate-x-full');
         window.openChatPanelMobile = () => document.getElementById('chat-panel').classList.remove('translate-x-full');
 
