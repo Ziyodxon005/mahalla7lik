@@ -142,13 +142,17 @@ function showDashboard() {
 
     const roleDisplay = document.getElementById('admin-role-display');
     const sidebarRoleLabel = document.getElementById('sidebar-role-label');
+    const mobileSidebarRole = document.getElementById('mobile-sidebar-role');
     const mainContent = document.querySelector('#admin-app > main');
     const superAdminDashboard = document.getElementById('super-admin-dashboard');
 
     if (currentAdmin) {
-        const roleName = currentAdmin.profile.role.replace(/_/g, ' ').toUpperCase();
-        if (roleDisplay) roleDisplay.textContent = roleName;
+        const roleKey = currentAdmin.profile.role;
+        const roleName = ROLE_NAMES[roleKey] || roleKey.replace(/_/g, ' ').toUpperCase();
+
+        if (roleDisplay) roleDisplay.textContent = roleName === 'Super Admin' ? 'SUPER ADMIN' : roleName;
         if (sidebarRoleLabel) sidebarRoleLabel.textContent = roleName;
+        if (mobileSidebarRole) mobileSidebarRole.textContent = roleName;
 
         // Super Admin uchun maxsus dashboard
         if (currentAdmin.profile.role === 'super_admin') {
