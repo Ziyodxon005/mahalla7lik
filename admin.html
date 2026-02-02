@@ -441,36 +441,42 @@
             </div>
         </div>
 
-        <!-- Chat Panel -->
-        <aside
-            class="w-full md:w-96 h-full bg-neu-bg border-l border-white/40 flex flex-col transition-all transform fixed md:relative right-0 z-30 translate-x-full md:translate-x-0 animate-particle"
-            id="chat-panel" style="animation-delay: 0.2s;">
-            <div class="p-5 border-b border-white/40">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs font-bold text-black uppercase">Muloqot</span>
-                    <button onclick="closeChatPanel()" class="text-black hover:text-black md:hidden">
-                        <span class="material-symbols-outlined">close</span>
+        <!-- Chat Modal (Admin side) -->
+        <div id="chat-modal"
+            class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 backdrop-blur-sm hidden modal-backdrop">
+            <div
+                class="neu-card rounded-2xl sm:rounded-3xl w-full max-w-lg mx-2 sm:mx-4 h-[85vh] sm:h-[80vh] flex flex-col overflow-hidden modal-content">
+                <!-- Chat Header -->
+                <div class="p-5 border-b border-white/30 flex items-center justify-between">
+                    <div id="chat-header-info">
+                        <p class="text-[10px] text-primary font-bold uppercase">Muloqot</p>
+                        <h4 class="font-bold text-black text-sm">Murojaatni tanlang</h4>
+                    </div>
+                    <button onclick="window.closeChatModal()"
+                        class="w-8 h-8 rounded-full neu-btn flex items-center justify-center text-black hover:text-black">
+                        <span class="material-symbols-outlined text-lg">close</span>
                     </button>
                 </div>
-                <div class="p-4 rounded-xl neu-inset" id="chat-header-info">
-                    <p class="text-sm text-black text-center">Murojaatni tanlang</p>
+
+                <!-- Chat Messages -->
+                <div class="flex-1 overflow-y-auto p-5 space-y-3 no-scrollbar" id="chat-messages">
+                    <p class="text-center text-black text-sm py-4">Murojaatni tanlang</p>
+                </div>
+
+                <!-- Chat Input -->
+                <div class="p-5 border-t border-white/30">
+                    <form id="chat-form" class="flex items-center gap-3 opacity-50 pointer-events-none">
+                        <input id="chat-input"
+                            class="flex-1 neu-inset rounded-full px-5 py-3 border-none outline-none text-sm"
+                            placeholder="Xabar yozing..." type="text" autocomplete="off" />
+                        <button type="submit"
+                            class="w-11 h-11 rounded-full bg-primary text-white flex items-center justify-center hover:brightness-110 transition shadow-lg">
+                            <span class="material-symbols-outlined text-lg">send</span>
+                        </button>
+                    </form>
                 </div>
             </div>
-
-            <div class="flex-1 overflow-y-auto p-5 space-y-3 no-scrollbar" id="chat-messages"></div>
-
-            <div class="p-5 border-t border-white/40">
-                <form id="chat-form" class="flex items-center gap-3 opacity-50 pointer-events-none">
-                    <input id="chat-input"
-                        class="flex-1 neu-inset rounded-full px-5 py-3 border-none outline-none text-sm"
-                        placeholder="Xabar yozing..." type="text" autocomplete="off" />
-                    <button type="submit"
-                        class="w-11 h-11 rounded-full bg-primary text-white flex items-center justify-center hover:brightness-110 transition shadow-lg">
-                        <span class="material-symbols-outlined text-lg">send</span>
-                    </button>
-                </form>
-            </div>
-        </aside>
+        </div>
     </div>
 
     <!-- Status Modal -->
@@ -673,8 +679,8 @@
             document.getElementById('admin-logout').click();
         };
 
-        window.closeChatPanel = () => document.getElementById('chat-panel').classList.add('translate-x-full');
-        window.openChatPanelMobile = () => document.getElementById('chat-panel').classList.remove('translate-x-full');
+        window.openChatModal = () => document.getElementById('chat-modal').classList.remove('hidden');
+        window.closeChatModal = () => document.getElementById('chat-modal').classList.add('hidden');
 
         // Admin Password visibility toggle
         const adminTogglePassword = document.getElementById('admin-toggle-password');

@@ -14,7 +14,7 @@ const filtersContainer = document.getElementById('filters-container');
 let currentFilter = 'all';
 
 // Chat Elements
-const chatPanel = document.getElementById('chat-panel');
+const chatModal = document.getElementById('chat-modal');
 const chatHeaderInfo = document.getElementById('chat-header-info');
 const chatMessages = document.getElementById('chat-messages');
 const chatForm = document.getElementById('chat-form');
@@ -109,7 +109,7 @@ window.openEmbeddedChat = async (id, title, status, requesterName) => {
         `;
     }
 
-    if (window.openChatPanelMobile) window.openChatPanelMobile();
+    if (window.openChatModal) window.openChatModal();
 
     await loadMessagesForPanel(id);
 };
@@ -155,14 +155,14 @@ function showDashboard() {
             mainContent?.classList.add('hidden');
             superAdminDashboard?.classList.remove('hidden');
             // Chat panelni yashirish (super admin faqat kuzatadi)
-            document.getElementById('chat-panel')?.classList.add('hidden');
+            document.getElementById('chat-modal')?.classList.add('hidden');
             // Sidebar navigatsiyani yashirish
             document.getElementById('sidebar-murojaatlar-btn')?.classList.add('hidden');
             loadSuperAdminStats();
         } else {
             mainContent?.classList.remove('hidden');
             superAdminDashboard?.classList.add('hidden');
-            document.getElementById('chat-panel')?.classList.remove('hidden');
+            document.getElementById('chat-modal')?.classList.add('hidden');
             document.getElementById('sidebar-murojaatlar-btn')?.classList.remove('hidden');
             loadRequests();
         }
