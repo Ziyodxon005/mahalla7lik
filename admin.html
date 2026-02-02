@@ -224,9 +224,16 @@
                     </div>
                 </div>
 
-                <nav class="flex-1">
-                    <a class="flex items-center gap-3 px-4 py-3 rounded-xl neu-active text-primary font-semibold"
-                        href="#">
+                <nav class="flex-1 space-y-2">
+                    <a id="mobile-stats-btn"
+                        class="flex items-center gap-3 px-4 py-3 rounded-xl text-black font-semibold hover:bg-white/20 transition hidden"
+                        href="#" onclick="toggleDashboard(); closeMobileSidebar();">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        <span>Statistika</span>
+                    </a>
+                    <a id="mobile-murojaatlar-btn"
+                        class="flex items-center gap-3 px-4 py-3 rounded-xl neu-active text-primary font-semibold"
+                        href="#" onclick="if(!showingDashboard) toggleDashboard(); closeMobileSidebar();">
                         <span class="material-symbols-outlined">inbox</span>
                         <span>Murojaatlar</span>
                     </a>
@@ -253,9 +260,16 @@
                 </div>
             </div>
 
-            <nav class="flex-1 min-h-0" id="sidebar-nav">
-                <a class="flex items-center gap-3 px-4 py-3 rounded-xl neu-active text-primary font-semibold" href="#"
-                    id="sidebar-murojaatlar-btn">
+            <nav class="flex-1 min-h-0 space-y-2" id="sidebar-nav">
+                <a id="sidebar-stats-btn"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-black font-semibold hover:bg-white/20 transition hidden"
+                    href="#" onclick="if(!showingDashboard) toggleDashboard();">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Statistika</span>
+                </a>
+                <a id="sidebar-murojaatlar-btn"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl neu-active text-primary font-semibold" href="#"
+                    onclick="if(showingDashboard) toggleDashboard();">
                     <span class="material-symbols-outlined">inbox</span>
                     <span>Murojaatlar</span>
                 </a>

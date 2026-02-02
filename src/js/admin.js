@@ -155,19 +155,28 @@ function showDashboard() {
         if (mobileSidebarRole) mobileSidebarRole.textContent = roleName;
 
         // Super Admin uchun maxsus dashboard
+        // Super Admin uchun maxsus dashboard
         if (currentAdmin.profile.role === 'super_admin') {
             mainContent?.classList.add('hidden');
             superAdminDashboard?.classList.remove('hidden');
+            // Statistika tugmalarini ko'rsatish
+            document.getElementById('sidebar-stats-btn')?.classList.remove('hidden');
+            document.getElementById('mobile-stats-btn')?.classList.remove('hidden');
+            // Murojaatlar tugmalarini faol (neu-active) qilish/olish JS orqali boshqariladi
+            updateSidebarActiveStates(true);
+
             // Chat panelni yashirish (super admin faqat kuzatadi)
             document.getElementById('chat-modal')?.classList.add('hidden');
-            // Sidebar navigatsiyani yashirish
-            document.getElementById('sidebar-murojaatlar-btn')?.classList.add('hidden');
             loadSuperAdminStats();
         } else {
             mainContent?.classList.remove('hidden');
             superAdminDashboard?.classList.add('hidden');
             document.getElementById('chat-modal')?.classList.add('hidden');
+            // Statistika tugmalarini yashirish (oddiy admin uchun shart emas)
+            document.getElementById('sidebar-stats-btn')?.classList.add('hidden');
+            document.getElementById('mobile-stats-btn')?.classList.add('hidden');
             document.getElementById('sidebar-murojaatlar-btn')?.classList.remove('hidden');
+            updateSidebarActiveStates(false);
             loadRequests();
         }
     } else {
@@ -527,27 +536,35 @@ let showingDashboard = true;
 window.toggleDashboard = () => {
     const mainContent = document.querySelector('#admin-app > main');
     const superAdminDashboard = document.getElementById('super-admin-dashboard');
-    const toggleBtn = document.getElementById('toggle-dashboard-btn');
 
     if (showingDashboard) {
         // Murojaatlarga o'tish
         mainContent?.classList.remove('hidden');
         superAdminDashboard?.classList.add('hidden');
-        if (toggleBtn) {
-            toggleBtn.innerHTML = '<span class="material-symbols-outlined text-lg">dashboard</span> Dashboard';
-        }
+        updateSidebarActiveStates(false);
         loadRequests();
     } else {
         // Dashboardga qaytish
         mainContent?.classList.add('hidden');
         superAdminDashboard?.classList.remove('hidden');
-        if (toggleBtn) {
-            toggleBtn.innerHTML = '<span class="material-symbols-outlined text-lg">inbox</span> Murojaatlar';
-        }
+        updateSidebarActiveStates(true);
         loadSuperAdminStats();
     }
     showingDashboard = !showingDashboard;
 };
+
+function updateSidebarActiveStates(isDashboardActive) {
+    const statsBtns = [document.getElementById('sidebar-stats-btn'), document.getElementById('mobile-stats-btn')];
+    const murojaatBtns = [document.getElementById('sidebar-murojaatlar-btn'), document.getElementById('mobile-murojaatlar-btn')];
+
+    if (isDashboardActive) {
+        statsBtns.forEach(btn => btn?.classList.add('neu-active', 'text-primary'));
+        murojaatBtns.forEach(btn => btn?.classList.remove('neu-active', 'text-primary'));
+    } else {
+        murojaatBtns.forEach(btn => btn?.classList.add('neu-active', 'text-primary'));
+        statsBtns.forEach(btn => btn?.classList.remove('neu-active', 'text-primary'));
+    }
+}
 
 async function loadSuperAdminStats() {
     try {
