@@ -137,6 +137,11 @@
             transform: translateX(0);
         }
 
+        /* Sidebar visibility */
+        .desktop-sidebar {
+            display: none;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .neu-card {
@@ -172,7 +177,7 @@
         /* Desktop sidebar fix */
         @media (min-width: 769px) {
             .desktop-sidebar {
-                display: flex;
+                display: flex !important;
                 flex-direction: column;
                 height: 100%;
             }
@@ -248,8 +253,7 @@
         </div>
 
         <!-- Desktop Sidebar -->
-        <aside
-            class="hidden md:flex w-64 h-full flex-shrink-0 glass-sidebar flex-col p-5 animate-particle desktop-sidebar">
+        <aside class="w-64 h-full flex-shrink-0 glass-sidebar flex-col p-5 animate-particle desktop-sidebar">
             <div class="flex items-center gap-3 mb-10">
                 <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg p-1">
                     <img src="/logo.png" alt="Logo" class="w-full h-full object-contain">
